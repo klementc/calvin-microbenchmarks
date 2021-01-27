@@ -1,0 +1,6 @@
+dummytask3 : math.DummyTask(dur=5000, size=1024)
+button2 : io.Button(text="Button")
+sink1 : data.Sink()
+
+button2.state > dummytask3.mailboxIn
+dummytask3.mailboxOut > sink1.data
