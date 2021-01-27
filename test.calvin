@@ -1,6 +1,13 @@
-dummytask3 : math.DummyTask(dur=5000, size=1024)
-button2 : io.Button(text="Button")
-sink1 : data.Sink()
+trigger7 : std.Trigger(data="lolilol", tick=4)
+dummytask6 : math.DummyTask(dur=1500, size=10000)
+sink5 : data.Sink()
+spansink4 : math.SpanSink()
+dummytask3 : math.DummyTask(dur=3000, size=1000)
+constant2 : std.Constant(data="none")
 
-button2.state > dummytask3.mailboxIn
-dummytask3.mailboxOut > sink1.data
+constant2.token > dummytask3.spIn
+dummytask3.mailboxOut > dummytask6.mailboxIn
+dummytask3.spOut > dummytask6.spIn
+dummytask6.mailboxOut > sink5.data
+dummytask6.spOut > spansink4.spIn
+trigger7.data > dummytask3.mailboxIn

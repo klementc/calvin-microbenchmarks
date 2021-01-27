@@ -1,5 +1,7 @@
 import logging
 import time
+import random
+
 from calvin.actor.actor import Actor, manage, condition,calvinsys
 from jaeger_client import Config
 
@@ -9,8 +11,10 @@ class DummyTask(Actor):
     perform dummy task
     Inputs :
         mailboxIn: input data mailbox
+        spIn: input span
     Output :
         mailboxOut: out mailbox
+        spOut: output span
     """
 
 
@@ -28,24 +32,29 @@ class DummyTask(Actor):
                 },
                 'logging': True,
             },
-            service_name='your-app-name',
+            service_name='dummy'+str(random.randint(1,1000)),
             validate=True,
         )
-        self.tracer = config.initialize_tracer()
-        
+        self.tracer = config.new_tracer()
 
-    @condition(action_input=['mailboxIn'], action_output=['mailboxOut'])
-    def computeAndReturn(self, data):
-        sp = self.tracer.start_span("coucou")
-            
-        sp.log_kv({'event': 'test message', 'life': 42})
+
+    @condition(action_input=['mailboxIn', 'spIn'], action_output=['mailboxOut', 'spOut'])
+    def computeAndReturn(self, data, spIn):
+
+        if(spIn == "none"):
+            spOut = self.tracer.start_span("coucou")
+        else:
+            spOut = self.tracer.start_span('ChildSpan', child_of=spIn)
+            spIn.finish()
+
+        spOut.log_kv({'event': 'test message', 'life': 42})
         calvinsys.write(self.log, "start exec"+str(time.time()))
         t_end = time.time() + self.dur/1000
         data = bytearray(self.size)
         while time.time() < t_end:
             continue
         calvinsys.write(self.log, "finished exec"+str(time.time()))
-        sp.finish()
-        return (data,)
+#        spOut.finish()
+        return (data,spOut)
 
     action_priority = (computeAndReturn,)
