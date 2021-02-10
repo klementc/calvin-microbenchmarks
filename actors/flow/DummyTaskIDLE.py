@@ -1,5 +1,6 @@
 import time
 import random
+import threading
 
 from calvin.actor.actor import Actor, manage, condition, stateguard, calvinsys
 from jaeger_client import Config
@@ -23,7 +24,7 @@ class DummyTaskIDLE(Actor):
         self.size = size
         self.log = calvinsys.open(self, "log.info")
         self.name = servName
-        self.timers = []
+        self.tasks = []
         config = Config(
             config={ # usually read from some yaml config
                 'sampler': {
@@ -37,11 +38,6 @@ class DummyTaskIDLE(Actor):
         )
         self.tracer = config.new_tracer()
 
-        
-    def new_timer(self):
-        timer = calvinsys.open(self, "sys.timer.once", period=self.delay)
-        return timer
-
     @condition(['token','spIn'])
     def token_available(self, token, spIn):
         calvinsys.write(self.log, self.name+" received "+str(time.time()))
@@ -51,17 +47,33 @@ class DummyTaskIDLE(Actor):
             spOut = self.tracer.start_span('ChildSpan'+str(self.tracer.service_name), child_of=spIn)
             spIn.finish()
 
-        self.timers.append({'token': token, 'timer': self.new_timer(),'span':spOut})
-        calvinsys.write(self.log, self.name+" timers size"+str(len(self.timers)))
+        x = threading.Thread(target=self.thread_test, args=(token, spOut,))
+        x.start()
+        #self.tasks.append({'token': token, 'timer': self.delay,'span': spOut})
+#        s=" finished: "
+#        for i in self.timers:
+#            s+=str(calvinsys.can_read(i["timer"]))
+        calvinsys.write(self.log, self.name+" timers size"+str(len(self.tasks)))
 
-    @stateguard(lambda self: len(self.timers) > 0 and calvinsys.can_read(self.timers[0]['timer']))
+    def thread_test(self, token, span):
+        for i in range(1000000):
+            continue
+        self.tasks.append({'token':token, 'timer':self.delay, 'span': span})
+
+        
+    @stateguard(lambda self: len(self.tasks) > 0) # and calvinsys.can_read(self.timers[0]['timer']))
     @condition([], ['token','spOut'])
-    def timeout(self):
-        calvinsys.write(self.log, self.name+" finished exec"+str(time.time()))
-        item = self.timers.pop(0)
-        calvinsys.read(item['timer'])
-        calvinsys.close(item['timer'])
+    def car(self):
+        calvinsys.write(self.log, self.name+" execute task")
+        item = self.tasks.pop(0)
+
+        t_end = time.time() + self.delay
+        data = bytearray(self.size)
+        while time.time() < t_end:
+            continue
+        #calvinsys.read(item['timer'])
+        #calvinsys.close(item['timer'])
         return (item['token'], item['span'])
 
-    action_priority = (timeout, token_available)
+    action_priority = (token_available, car)
     requires = ['sys.timer.once']

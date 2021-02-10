@@ -19,7 +19,7 @@ class DummyTask(Actor):
 
 
     @manage(['size', 'dur', 'log','tracer'])
-    def init(self, size, dur):
+    def init(self, size, dur, servName):
         self.size = size
         self.dur = dur
         self.log = calvinsys.open(self, "log.info")
@@ -32,7 +32,7 @@ class DummyTask(Actor):
                 },
                 'logging': True,
             },
-            service_name='dummy'+str(random.randint(1,1000)),
+            service_name=servName,
             validate=True,
         )
         self.tracer = config.new_tracer()
@@ -42,9 +42,9 @@ class DummyTask(Actor):
     def computeAndReturn(self, data, spIn):
 
         if(spIn == "none"):
-            spOut = self.tracer.start_span("coucou")
+            spOut = self.tracer.start_span("compute_"+str(self.tracer.service_name))
         else:
-            spOut = self.tracer.start_span('ChildSpan', child_of=spIn)
+            spOut = self.tracer.start_span('ChildSpan'+str(self.tracer.service_name), child_of=spIn)
             spIn.finish()
 
         spOut.log_kv({'event': 'test message', 'life': 42})

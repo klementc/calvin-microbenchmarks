@@ -34,8 +34,8 @@ class SpanSink(Actor):
 
     @condition(action_input=['spIn'], action_output=[])
     def sinkspan(self, spIn):
+        calvinsys.write(self.log, "sink "+str(time.time()))
         if(spIn != None):
-            calvinsys.write(self.log, "sink "+str(time.time()))
             spIn.finish()
 
         return ()
