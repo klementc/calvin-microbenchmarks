@@ -2,6 +2,8 @@ import time
 import random
 import threading
 
+from pypapi import events, papi_high as high
+
 from calvin.actor.actor import Actor, manage, condition, stateguard, calvinsys
 from jaeger_client import Config
 
@@ -47,7 +49,7 @@ class DummyTaskIDLE(Actor):
             spOut = self.tracer.start_span('ChildSpan'+str(self.tracer.service_name), child_of=spIn)
             spIn.finish()
 
-        x = threading.Thread(target=self.thread_test, args=(token, spOut,delay))
+        x = threading.Thread(target=self.thread_test, args=(token, spOut))
         x.start()
         #self.tasks.append({'token': token, 'timer': self.delay,'span': spOut})
 #        s=" finished: "
@@ -55,25 +57,21 @@ class DummyTaskIDLE(Actor):
 #            s+=str(calvinsys.can_read(i["timer"]))
         calvinsys.write(self.log, self.name+" timers size"+str(len(self.tasks)))
 
-    def thread_test(self, token, span, loopfor):
-        for i in range(loopfor):
+    def thread_test(self, token, span):
+        t_begin = time.time()
+        high.start_counters([events.PAPI_TOT_INS,])
+        for i in range(self.delay):
             continue
         self.tasks.append({'token':token, 'timer':self.delay, 'span': span})
-
+        x=high.stop_counters()
+        dur = time.time() - t_begin
+        calvinsys.write(self.log, self.name+"finished loop. iter: "+str(self.delay)+" dur: "+str(dur)+" instcnt: "+str(x))
         
     @stateguard(lambda self: len(self.tasks) > 0) # and calvinsys.can_read(self.timers[0]['timer']))
     @condition([], ['token','spOut'])
     def car(self):
-        calvinsys.write(self.log, self.name+" execute task")
         item = self.tasks.pop(0)
-
-#        t_end = time.time() + self.delay
-#        data = bytearray(self.size)
-#        while time.time() < t_end:
-#            continue
-        #calvinsys.read(item['timer'])
-        #calvinsys.close(item['timer'])
-        return (item['token'], item['span'])
+        return ("a"*self.size, item['span'])
 
     action_priority = (token_available, car)
     requires = ['sys.timer.once']
