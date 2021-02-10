@@ -47,7 +47,7 @@ class DummyTaskIDLE(Actor):
             spOut = self.tracer.start_span('ChildSpan'+str(self.tracer.service_name), child_of=spIn)
             spIn.finish()
 
-        x = threading.Thread(target=self.thread_test, args=(token, spOut,))
+        x = threading.Thread(target=self.thread_test, args=(token, spOut,delay))
         x.start()
         #self.tasks.append({'token': token, 'timer': self.delay,'span': spOut})
 #        s=" finished: "
@@ -55,8 +55,8 @@ class DummyTaskIDLE(Actor):
 #            s+=str(calvinsys.can_read(i["timer"]))
         calvinsys.write(self.log, self.name+" timers size"+str(len(self.tasks)))
 
-    def thread_test(self, token, span):
-        for i in range(1000000):
+    def thread_test(self, token, span, loopfor):
+        for i in range(loopfor):
             continue
         self.tasks.append({'token':token, 'timer':self.delay, 'span': span})
 
