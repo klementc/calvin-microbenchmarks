@@ -38,7 +38,7 @@ class DummyTaskIDLE(Actor):
         )
         self.tracer = config.new_tracer()
 
-    @condition(['token','spIn'])
+    @condition(['token','spIn'],[])
     def token_available(self, token, spIn):
         calvinsys.write(self.log, self.name+" received "+str(time.time()))
         if(spIn == "none"):
@@ -67,10 +67,10 @@ class DummyTaskIDLE(Actor):
         calvinsys.write(self.log, self.name+" execute task")
         item = self.tasks.pop(0)
 
-        t_end = time.time() + self.delay
-        data = bytearray(self.size)
-        while time.time() < t_end:
-            continue
+#        t_end = time.time() + self.delay
+#        data = bytearray(self.size)
+#        while time.time() < t_end:
+#            continue
         #calvinsys.read(item['timer'])
         #calvinsys.close(item['timer'])
         return (item['token'], item['span'])
