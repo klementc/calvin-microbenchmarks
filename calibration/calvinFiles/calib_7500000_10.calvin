@@ -1,0 +1,16 @@
+trigger : std.Trigger(data="test", tick=10)
+constant : std.Constant(data="none")
+sink : data.Sink()
+spansink : flow.SpanSink()
+dummytaskidle3 : flow.DummyTaskIDLE(delay=7500000, servName="s3", size=1)
+dummytaskidle2 : flow.DummyTaskIDLE(delay=7500000, servName="s2", size=1)
+dummytaskidle1 : flow.DummyTaskIDLE(delay=7500000, servName="s1", size=1)
+
+trigger.data > dummytaskidle1.token
+constant.token > dummytaskidle1.spIn
+dummytaskidle1.token > dummytaskidle2.token
+dummytaskidle1.spOut > dummytaskidle2.spIn
+dummytaskidle2.token > dummytaskidle3.token
+dummytaskidle2.spOut > dummytaskidle3.spIn
+dummytaskidle3.token > sink.data
+dummytaskidle3.spOut > spansink.spIn

@@ -8,5 +8,6 @@ source venv/bin/activate
 
 pip install jaeger-client
 pip install er-calvin 
+pip install python_papi
 ```
 

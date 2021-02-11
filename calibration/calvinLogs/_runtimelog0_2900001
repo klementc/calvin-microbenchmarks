@@ -1,0 +1,95 @@
+2021-02-11 12:27:15,063 INFO     16336-calvin.calvin.runtime.north.certificate_authority.certificate_authority: __init__, _sec_conf={}
+2021-02-11 12:27:15,089 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'log.info' registered with module 'term.Log'
+2021-02-11 12:27:15,089 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'sys.timer.once' registered with module 'sys.timer.Timer'
+2021-02-11 12:27:15,089 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'log.warning' registered with module 'term.Log'
+2021-02-11 12:27:15,089 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'io.stdin' registered with module 'io.filehandler.StdIn'
+2021-02-11 12:27:15,089 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'io.filesize' registered with module 'io.filehandler.GetSize'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'network.udplistener' registered with module 'network.UDPListener'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'sys.schedule' registered with module 'sys.timer.Timer'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'http.delete' registered with module 'web.http.Command'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'network.socketclient' registered with module 'network.SocketClient'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'io.filereader' registered with module 'io.filehandler.Descriptor'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'http.post' registered with module 'web.http.Command'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'log.error' registered with module 'term.Log'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'io.filewriter' registered with module 'io.filehandler.Descriptor'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'io.stdout' registered with module 'term.StandardOut'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'network.tcpserver' registered with module 'network.TCPServer'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'sys.attribute.indexed' registered with module 'sys.attribute.Attribute'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'http.get' registered with module 'web.http.Command'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'sys.timer.repeating' registered with module 'sys.timer.Timer'
+2021-02-11 12:27:15,090 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'http.put' registered with module 'web.http.Command'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinsys: Capability 'sys.attribute.public' registered with module 'sys.attribute.Attribute'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'json' registered with module 'jsonlib.Json'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'copy' registered with module 'datalib.Copy'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'math.random' registered with module 'mathlib.Random'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'time' registered with module 'timelib.Time'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'math.arithmetic.compare' registered with module 'mathlib.Arithmetic'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'regexp' registered with module 'regexp.PyRegexp'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'math.arithmetic.operator' registered with module 'mathlib.Arithmetic'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'base64' registered with module 'base64lib.Base64'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'math.arithmetic.eval' registered with module 'mathlib.Arithmetic'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.calvinlib: Capability 'mustache' registered with module 'textformatlib.Pystache'
+2021-02-11 12:27:15,091 INFO     16336-calvin.calvin.runtime.north.storage: #### STORAGE TYPE local ####
+2021-02-11 12:27:15,171 INFO     16336-calvin.calvin.runtime.north.calvincontrol: Control API listening on: localhost:5001
+2021-02-11 12:27:20,184 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 received 1613042840.18
+2021-02-11 12:27:20,185 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 timers size0
+2021-02-11 12:27:20,292 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1finished loop. iter: 2900001 dur: 0.106667995453 instcnt: [488655247]
+2021-02-11 12:27:21,104 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 received 1613042841.1
+2021-02-11 12:27:21,133 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 timers size0
+2021-02-11 12:27:21,182 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2finished loop. iter: 2900001 dur: 0.0770180225372 instcnt: [459772710]
+2021-02-11 12:27:23,105 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 received 1613042843.11
+2021-02-11 12:27:23,106 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 timers size0
+2021-02-11 12:27:23,181 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3finished loop. iter: 2900001 dur: 0.0743589401245 instcnt: [459756180]
+2021-02-11 12:27:25,108 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: sink 1613042845.11
+2021-02-11 12:27:30,185 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 received 1613042850.19
+2021-02-11 12:27:30,186 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 timers size0
+2021-02-11 12:27:30,257 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1finished loop. iter: 2900001 dur: 0.0711388587952 instcnt: [459756249]
+2021-02-11 12:27:31,114 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 received 1613042851.11
+2021-02-11 12:27:31,140 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 timers size0
+2021-02-11 12:27:31,189 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2finished loop. iter: 2900001 dur: 0.0742428302765 instcnt: [459767790]
+2021-02-11 12:27:33,115 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 received 1613042853.11
+2021-02-11 12:27:33,117 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 timers size0
+2021-02-11 12:27:33,191 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3finished loop. iter: 2900001 dur: 0.0743300914764 instcnt: [459756248]
+2021-02-11 12:27:35,118 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: sink 1613042855.12
+2021-02-11 12:27:40,189 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 received 1613042860.19
+2021-02-11 12:27:40,190 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 timers size0
+2021-02-11 12:27:40,263 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1finished loop. iter: 2900001 dur: 0.0732519626617 instcnt: [459756111]
+2021-02-11 12:27:41,126 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 received 1613042861.13
+2021-02-11 12:27:41,151 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 timers size0
+2021-02-11 12:27:41,226 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2finished loop. iter: 2900001 dur: 0.0988759994507 instcnt: [459766376]
+2021-02-11 12:27:43,126 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 received 1613042863.13
+2021-02-11 12:27:43,128 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 timers size0
+2021-02-11 12:27:43,206 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3finished loop. iter: 2900001 dur: 0.0782520771027 instcnt: [459757421]
+2021-02-11 12:27:45,130 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: sink 1613042865.13
+2021-02-11 12:27:50,193 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 received 1613042870.19
+2021-02-11 12:27:50,194 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 timers size0
+2021-02-11 12:27:50,293 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1finished loop. iter: 2900001 dur: 0.0991160869598 instcnt: [459760951]
+2021-02-11 12:27:51,135 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 received 1613042871.13
+2021-02-11 12:27:51,162 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 timers size0
+2021-02-11 12:27:51,243 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2finished loop. iter: 2900001 dur: 0.107514858246 instcnt: [459767475]
+2021-02-11 12:27:53,135 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 received 1613042873.13
+2021-02-11 12:27:53,137 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 timers size0
+2021-02-11 12:27:53,212 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3finished loop. iter: 2900001 dur: 0.0753309726715 instcnt: [459757420]
+2021-02-11 12:27:55,139 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: sink 1613042875.14
+2021-02-11 12:28:00,195 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 received 1613042880.19
+2021-02-11 12:28:00,196 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 timers size0
+2021-02-11 12:28:00,268 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1finished loop. iter: 2900001 dur: 0.0722620487213 instcnt: [459756180]
+2021-02-11 12:28:01,143 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 received 1613042881.14
+2021-02-11 12:28:01,172 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 timers size0
+2021-02-11 12:28:01,220 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2finished loop. iter: 2900001 dur: 0.0753581523895 instcnt: [459766845]
+2021-02-11 12:28:03,145 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 received 1613042883.14
+2021-02-11 12:28:03,146 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 timers size0
+2021-02-11 12:28:03,230 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3finished loop. iter: 2900001 dur: 0.08367395401 instcnt: [459755797]
+2021-02-11 12:28:05,146 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: sink 1613042885.15
+2021-02-11 12:28:10,199 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 received 1613042890.2
+2021-02-11 12:28:10,200 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 timers size0
+2021-02-11 12:28:10,278 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1finished loop. iter: 2900001 dur: 0.0778770446777 instcnt: [459756225]
+2021-02-11 12:28:11,152 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 received 1613042891.15
+2021-02-11 12:28:11,177 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2 timers size0
+2021-02-11 12:28:11,224 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s2finished loop. iter: 2900001 dur: 0.070708990097 instcnt: [459767787]
+2021-02-11 12:28:13,155 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 received 1613042893.15
+2021-02-11 12:28:13,157 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3 timers size0
+2021-02-11 12:28:13,232 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s3finished loop. iter: 2900001 dur: 0.0752530097961 instcnt: [459755935]
+2021-02-11 12:28:15,159 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: sink 1613042895.16
+2021-02-11 12:28:20,199 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 received 1613042900.2
+2021-02-11 12:28:20,200 INFO     16336-calvin.calvin.runtime.south.calvinsys.term.Log: s1 timers size0

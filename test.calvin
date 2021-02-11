@@ -1,9 +1,21 @@
-trigger7 : std.Trigger(data="lolilol", tick=4)
-dummytask6 : math.DummyTask(dur=1500, size=10000)
+trigger7 : std.Trigger(data="lolilol", tick=10)
+dummytask6 : math.DummyTask(dur=1500, size=10000,servName="service2")
 sink5 : data.Sink()
 spansink4 : math.SpanSink()
-dummytask3 : math.DummyTask(dur=3000, size=1000)
+dummytask3 : math.DummyTask(dur=3000, size=1000,servName="service1")
 constant2 : std.Constant(data="none")
+
+rule dummytask3: performance_scaling(max=20, alone=false)
+rule dummytask6: performance_scaling(max=20, alone=false)
+
+dummytask3.mailboxOut(routing="balanced")
+dummytask6.mailboxOut(routing="balanced")
+dummytask3.spOut(routing="balanced") 
+dummytask6.spOut(routing="balanced")
+dummytask3.mailboxIn(routing="collect-tagged") 
+dummytask6.mailboxIn(routing="collect-tagged")
+dummytask3.spIn(routing="collect-tagged")
+dummytask6.spIn(routing="collect-tagged")
 
 constant2.token > dummytask3.spIn
 dummytask3.mailboxOut > dummytask6.mailboxIn
