@@ -1,2 +1,4 @@
 **/*~
 **/*.pyc
+./calibration/calvinLogs/*
+./calibration/calvinFiles/*
