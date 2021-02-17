@@ -37,11 +37,23 @@ def periodicTrigger(period, nbReq):
         time.sleep(period)
         trigger()
 
+def timeStampFileTrigger(fp):
+    with open(fp) as fo:
+        lines = [float(line.rstrip()) for line in fo]
+        print(lines)
+        start = time.time()
+        for i in lines:
+            diff = start+i-time.time()
+            if(diff>0):
+                time.sleep(start+i-time.time())
+            trigger()
+        
 
 nbP = 20
-for p in np.arange(.25, .07, -.005):
-    periodicTrigger(p, nbP)
-    time.sleep(5)
+timeStampFileTrigger("test.ts")
+#for p in np.arange(.25, .07, -.005):
+#    periodicTrigger(p, nbP)
+#    time.sleep(5)
 
 
 
