@@ -6,14 +6,26 @@ import threading
 import json
 import opentracing
 import time
+import logging
 
 from jaeger_client import Config
 from opentracing import Tracer, Format
 
+# logger config
+
+logger = logging.getLogger('log_computetask')
+#logger.basicConfig(stream=sys.stdout, level=logging.INFO)
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
 
 
 def main(args):
-    print(" [x] Starting service, mq host: %r, input: %r, output: %r"%(args.rmqHost, args.inputMB, args.outputMB))
+    logger.info("Starting service, mq host: %r, input: %r, output: %r"%(args.rmqHost, args.inputMB, args.outputMB))
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=args.rmqHost))
     channelIn = connection.channel()
     channelIn.queue_declare(queue=args.inputMB)
@@ -23,7 +35,7 @@ def main(args):
                 'type': 'const',
                 'param': 1,
             },
-            'logging': True,
+            'logging': False,
         },
         service_name=args.sName,
     )
@@ -33,7 +45,7 @@ def main(args):
         recTS = time.time()
         ts = float(body.decode())
         diff = recTS - ts
-        print(" [%r] Received (transmission: %r )" %(args.sName, diff,))
+        logger.debug("%s received (transmission: %r )" %(args.sName, diff,))
 
         # extract or create span
         # https://opentracing.io/docs/best-practices/instrumenting-frameworks/
@@ -43,12 +55,12 @@ def main(args):
                                       references=opentracing.child_of(span_ctx))
         except opentracing.propagation.InvalidCarrierException:
             sp = tracer.start_span(operation_name="compute")
-        x = threading.Thread(target=thread_exec, args =(sp,recTS,))
+        x = threading.Thread(target=thread_exec, args =(sp,recTS,diff))
         x.start()
 
-    def thread_exec(sp, recTS):
+    def thread_exec(sp, recTS, diff):
         execTS = time.time()
-        print("[%r] Start executing the request at time %r (waited %r)"%(args.sName, execTS, execTS-recTS,))
+        logger.debug("%s start executing the request at time %r (waited %r)"%(args.sName, execTS, execTS-recTS,))
         for i in range(int(args.computeCost)):
             continue
         #https://github.com/pika/pika/issues/511
@@ -60,12 +72,12 @@ def main(args):
         tracer.inject(sp,opentracing.Format.HTTP_HEADERS, h)
         co.basic_publish(exchange='', routing_key=args.outputMB, properties=pika.BasicProperties(headers=h), body=str(time.time()))
         sp.finish()
-        print("[%r] Finished executing the request at time %r (total time %r)"%(args.sName, time.time(), time.time()-recTS))
+        logger.info("%s fin req ts: %r totDur: %r txDur: %r wait: %r iter: %s"%(args.sName, time.time(), time.time()-recTS, diff, execTS-recTS, args.computeCost))
 
 
     channelIn.basic_consume(queue=args.inputMB, on_message_callback=callback, auto_ack=True)
 
-    print(' [%r] Waiting for Requests. To exit press CTRL+C'%(args.sName))
+    logger.info(' %s Waiting for Requests. To exit press CTRL+C'%(args.sName))
     channelIn.start_consuming()
 
 if __name__ == '__main__':

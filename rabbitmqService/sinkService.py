@@ -5,12 +5,25 @@ import pika, sys, os
 import opentracing
 import time
 import struct
+import logging
 
 from jaeger_client import Config
 from opentracing import Tracer, Format
 
+# logger config
+
+logger = logging.getLogger('log_computetask')
+#logger.basicConfig(stream=sys.stdout, level=logging.INFO)
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
+
 def main(args):
-    print(" [%r] Starting sink service, mq host: %r, input: %r"%(args.sName, args.rmqHost, args.inputMB))
+    logger.info("%s Starting sink service, mq host: %r, input: %r"%(args.sName, args.rmqHost, args.inputMB))
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
     config = Config(
@@ -19,7 +32,7 @@ def main(args):
                 'type': 'const',
                 'param': 1,
             },
-            'logging': True,
+            'logging': False,
         },
         service_name=args.sName,
     )
@@ -29,7 +42,7 @@ def main(args):
     def callback(ch, method, properties, body):
         ts = float(body.decode())
         diff = time.time() - ts
-        print(" [%r] Received (transmission: %r )" %(args.sName, diff,))
+        logger.info("%s Received txDur: %r ts: %r" %(args.sName, diff,time.time()))
         span_ctx = tracer.extract(Format.TEXT_MAP, properties.headers)
         print(span_ctx)
         child = tracer.start_span(operation_name='sink',
@@ -38,7 +51,7 @@ def main(args):
 
     channel.basic_consume(queue=args.inputMB, on_message_callback=callback, auto_ack=True)
 
-    print(' [%r] Sink waiting for messages. To exit press CTRL+C'%(args.sName))
+    logger.info('%s Sink waiting for messages. To exit press CTRL+C'%(args.sName))
     channel.start_consuming()
 
 if __name__ == '__main__':

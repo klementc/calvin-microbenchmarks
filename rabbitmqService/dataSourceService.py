@@ -3,6 +3,19 @@ import pika
 import argparse
 import time
 import numpy as np
+import logging
+
+# logger config
+
+logger = logging.getLogger('log_computetask')
+#logger.basicConfig(stream=sys.stdout, level=logging.INFO)
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
 
 parser = argparse.ArgumentParser()
 # Adding optional argument
@@ -28,11 +41,11 @@ channel.queue_declare(queue=args.outputMB)
 #    time.sleep(3)
 
 def trigger():
-    print(" [%r] Source send request at time %r"%(args.sName, time.time()))
+    logger.info("%s Source send request at time %r"%(args.sName, time.time()))
     channel.basic_publish(exchange='', routing_key=args.outputMB, body=str(time.time()))
 
 def periodicTrigger(period, nbReq):
-    print( "[%r] Periodic trigger start: p=%r, nbReq=%r"%(args.sName, period, nbReq))
+    logger.info( "%s Periodic trigger start: p=%r, nbReq=%r"%(args.sName, period, nbReq))
     for i in range(nbReq):
         time.sleep(period)
         trigger()
@@ -45,12 +58,12 @@ def timeStampFileTrigger(fp):
         for i in lines:
             diff = start+i-time.time()
             if(diff>0):
-                time.sleep(start+i-time.time())
+                time.sleep(diff)
             trigger()
         
 
 nbP = 20
-timeStampFileTrigger("test.ts")
+timeStampFileTrigger("default5TimeStamps.csv")
 #for p in np.arange(.25, .07, -.005):
 #    periodicTrigger(p, nbP)
 #    time.sleep(5)
@@ -58,5 +71,5 @@ timeStampFileTrigger("test.ts")
 
 
 
-print("[%r] Source finished, exit")
+logger.info("%r Source finished, exit")
 connection.close()
