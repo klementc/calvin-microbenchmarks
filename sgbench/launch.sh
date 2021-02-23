@@ -23,7 +23,7 @@ do
     echo "$(pwd)/dejavu_platform.xml"
     echo "-------------------------------"
     echo "starting experiment loops: ${s}"
-    ./bench1  "$(pwd)/dejavu_platform.xml" ${s}  > ${logDir}/sg_${s}.log 2>&1
+    ./bench1  "$(pwd)/dejavu_platform.xml" ${s} default5TimeStamps.csv > ${logDir}/sg_${s}.log 2>&1
     echo "done"
 
     awk -f parse.awk "${logDir}/sg_${s}.log" > "${resultsDir}/${resF}_${s}.csv"

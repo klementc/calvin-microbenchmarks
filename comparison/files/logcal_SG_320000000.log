@@ -1,0 +1,217 @@
+Service with 320000000 flops
+[cb1-200:main:(1) 0.000000] [elastic/INFO] set up jaeger tracer for etmservice1
+[cb1-1:etmservice1_a:(2) 0.000000] [elastic/INFO] polling on mailbox service1
+[cb1-200:main:(1) 0.000000] [elastic/INFO] set up jaeger tracer for etmservice2
+[cb1-100:etmservice2_a:(7) 0.000000] [elastic/INFO] polling on mailbox service2
+[cb1-2:etmservice1_dataoutputf52480d84-da45-4cd7-b576-5c9a66ff29fd:(13) 4.320000] [run_log/INFO] output service 1 queueArrival: 4.000000 instArrival: 4.000000 startExec: 4.000000 endExec: 4.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf5c141a8d-cb86-4526-9a67-7df66889ef47:(15) 7.320000] [run_log/INFO] output service 1 queueArrival: 7.000000 instArrival: 7.000000 startExec: 7.000000 endExec: 7.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfe39fbbf9-46a1-4887-848c-11bb94e24c1b:(17) 10.320000] [run_log/INFO] output service 1 queueArrival: 10.000000 instArrival: 10.000000 startExec: 10.000000 endExec: 10.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf2b0ea816-18f3-4143-9509-2740b2dceaf2:(19) 13.320000] [run_log/INFO] output service 1 queueArrival: 13.000000 instArrival: 13.000000 startExec: 13.000000 endExec: 13.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf544b562e-bfd4-4f0f-b9e6-3ae8c4484131:(21) 16.320000] [run_log/INFO] output service 1 queueArrival: 16.000000 instArrival: 16.000000 startExec: 16.000000 endExec: 16.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf1b79619d-f402-4844-9e09-3d790f22651c:(23) 19.320000] [run_log/INFO] output service 1 queueArrival: 19.000000 instArrival: 19.000000 startExec: 19.000000 endExec: 19.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf99164ff5-dc67-40dd-8b34-5784807f171e:(25) 22.320000] [run_log/INFO] output service 1 queueArrival: 22.000000 instArrival: 22.000000 startExec: 22.000000 endExec: 22.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf0fbd54ef-e85a-46e8-84ef-c2a85f6b28b8:(27) 25.320000] [run_log/INFO] output service 1 queueArrival: 25.000000 instArrival: 25.000000 startExec: 25.000000 endExec: 25.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf289bef43-23af-4565-b357-c1fa2cb159a4:(29) 28.320000] [run_log/INFO] output service 1 queueArrival: 28.000000 instArrival: 28.000000 startExec: 28.000000 endExec: 28.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf10770410-9944-454e-80fd-6e97e3030105:(31) 31.320000] [run_log/INFO] output service 1 queueArrival: 31.000000 instArrival: 31.000000 startExec: 31.000000 endExec: 31.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfb2fd491b-39ae-40dd-a8af-5a3386a213b8:(33) 34.320000] [run_log/INFO] output service 1 queueArrival: 34.000000 instArrival: 34.000000 startExec: 34.000000 endExec: 34.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf73b395cd-8fa0-4292-8858-6a0afeee8d52:(35) 37.320000] [run_log/INFO] output service 1 queueArrival: 37.000000 instArrival: 37.000000 startExec: 37.000000 endExec: 37.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf3cb61891-6dcf-4de1-b374-1f27eee791ad:(37) 40.320000] [run_log/INFO] output service 1 queueArrival: 40.000000 instArrival: 40.000000 startExec: 40.000000 endExec: 40.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf2922b04f-ebe2-4585-af6e-6bfef6126333:(39) 43.320000] [run_log/INFO] output service 1 queueArrival: 43.000000 instArrival: 43.000000 startExec: 43.000000 endExec: 43.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf784c52ec-46d2-4517-bb8c-801805677f57:(41) 46.320000] [run_log/INFO] output service 1 queueArrival: 46.000000 instArrival: 46.000000 startExec: 46.000000 endExec: 46.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfd9e57875-f505-4425-b0e8-67bfbfa2e8fa:(43) 49.320000] [run_log/INFO] output service 1 queueArrival: 49.000000 instArrival: 49.000000 startExec: 49.000000 endExec: 49.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf1f689cf6-d44a-4a98-a959-d8959c7e8130:(45) 52.320000] [run_log/INFO] output service 1 queueArrival: 52.000000 instArrival: 52.000000 startExec: 52.000000 endExec: 52.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf93dc655a-4a3a-471a-8bd7-8881336b6675:(47) 55.320000] [run_log/INFO] output service 1 queueArrival: 55.000000 instArrival: 55.000000 startExec: 55.000000 endExec: 55.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf1f9bb81f-fe7a-4506-b48a-0f3e08f3096a:(49) 58.320000] [run_log/INFO] output service 1 queueArrival: 58.000000 instArrival: 58.000000 startExec: 58.000000 endExec: 58.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfbacfd6bf-7aa0-46ce-b92a-8d63468aa92f:(51) 61.320000] [run_log/INFO] output service 1 queueArrival: 61.000000 instArrival: 61.000000 startExec: 61.000000 endExec: 61.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf1fa7810f-ea02-4c0b-8656-b76feaf16581:(53) 64.320000] [run_log/INFO] output service 1 queueArrival: 64.000000 instArrival: 64.000000 startExec: 64.000000 endExec: 64.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfe5f441af-9ebe-46b9-97d0-c3933d6dc442:(55) 67.320000] [run_log/INFO] output service 1 queueArrival: 67.000000 instArrival: 67.000000 startExec: 67.000000 endExec: 67.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfa1042c83-e595-4989-a1f9-08a5555d8aee:(57) 70.320000] [run_log/INFO] output service 1 queueArrival: 70.000000 instArrival: 70.000000 startExec: 70.000000 endExec: 70.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf0baaef0f-8243-4b2a-ae41-de9e98bd7c14:(59) 73.320000] [run_log/INFO] output service 1 queueArrival: 73.000000 instArrival: 73.000000 startExec: 73.000000 endExec: 73.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfeb481f0b-7e79-45f1-b045-4792c1fce125:(61) 76.320000] [run_log/INFO] output service 1 queueArrival: 76.000000 instArrival: 76.000000 startExec: 76.000000 endExec: 76.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfc3377e37-5f79-4847-8a6c-789550a27a7d:(63) 79.320000] [run_log/INFO] output service 1 queueArrival: 79.000000 instArrival: 79.000000 startExec: 79.000000 endExec: 79.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf9d3bba4e-c2af-422a-88ad-1fc1c6ca114f:(65) 82.320000] [run_log/INFO] output service 1 queueArrival: 82.000000 instArrival: 82.000000 startExec: 82.000000 endExec: 82.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfdc3b49f9-aa55-4b2a-88e6-8be5add3d005:(67) 85.320000] [run_log/INFO] output service 1 queueArrival: 85.000000 instArrival: 85.000000 startExec: 85.000000 endExec: 85.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputffd8a1c94-48f2-4092-a63d-ae731977c474:(69) 88.320000] [run_log/INFO] output service 1 queueArrival: 88.000000 instArrival: 88.000000 startExec: 88.000000 endExec: 88.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf8009809f-9ac4-4ef5-8e48-7c1d087ea1c4:(71) 91.320000] [run_log/INFO] output service 1 queueArrival: 91.000000 instArrival: 91.000000 startExec: 91.000000 endExec: 91.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputff761eceb-4867-46af-8c72-c68218483f11:(73) 94.320000] [run_log/INFO] output service 1 queueArrival: 94.000000 instArrival: 94.000000 startExec: 94.000000 endExec: 94.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf49450176-c63c-4d1a-a23f-29874c9897e9:(75) 97.320000] [run_log/INFO] output service 1 queueArrival: 97.000000 instArrival: 97.000000 startExec: 97.000000 endExec: 97.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfc7634c4a-ddc8-4977-bfdf-42a193c72727:(77) 100.320000] [run_log/INFO] output service 1 queueArrival: 100.000000 instArrival: 100.000000 startExec: 100.000000 endExec: 100.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfd49887a0-875b-4ae6-8ca4-e1c0718675be:(79) 103.320000] [run_log/INFO] output service 1 queueArrival: 103.000000 instArrival: 103.000000 startExec: 103.000000 endExec: 103.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf5511a55b-8eca-479c-b2b7-396d325a0b6d:(81) 106.320000] [run_log/INFO] output service 1 queueArrival: 106.000000 instArrival: 106.000000 startExec: 106.000000 endExec: 106.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf9800eb3a-f02c-4ce4-bd2f-6dc582a4bb91:(83) 109.320000] [run_log/INFO] output service 1 queueArrival: 109.000000 instArrival: 109.000000 startExec: 109.000000 endExec: 109.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf27071930-9a85-49ca-b1bc-d2c0099a72de:(85) 112.320000] [run_log/INFO] output service 1 queueArrival: 112.000000 instArrival: 112.000000 startExec: 112.000000 endExec: 112.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfb871d35a-3873-43d3-a03a-db9d615aee85:(87) 115.320000] [run_log/INFO] output service 1 queueArrival: 115.000000 instArrival: 115.000000 startExec: 115.000000 endExec: 115.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfe8010a27-71d2-4830-958d-65807906c4f1:(89) 118.320000] [run_log/INFO] output service 1 queueArrival: 118.000000 instArrival: 118.000000 startExec: 118.000000 endExec: 118.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfa6d1d9ff-1a45-4497-a261-d0bc1f6943cc:(91) 121.320000] [run_log/INFO] output service 1 queueArrival: 121.000000 instArrival: 121.000000 startExec: 121.000000 endExec: 121.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfdf793800-235b-4e40-83c9-3b57a0009073:(93) 124.320000] [run_log/INFO] output service 1 queueArrival: 124.000000 instArrival: 124.000000 startExec: 124.000000 endExec: 124.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf1e7c021e-cb13-4f7d-9420-be198d3c6c3a:(95) 127.320000] [run_log/INFO] output service 1 queueArrival: 127.000000 instArrival: 127.000000 startExec: 127.000000 endExec: 127.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf4039f6a7-fb5f-4751-a6f6-6b5e30865ddd:(97) 130.320000] [run_log/INFO] output service 1 queueArrival: 130.000000 instArrival: 130.000000 startExec: 130.000000 endExec: 130.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf3e5fd027-1ef0-4291-b8d5-bcaab7f3a33e:(99) 133.320000] [run_log/INFO] output service 1 queueArrival: 133.000000 instArrival: 133.000000 startExec: 133.000000 endExec: 133.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf46bc12bb-f76d-425d-9e30-9a8f63e4dabd:(101) 136.320000] [run_log/INFO] output service 1 queueArrival: 136.000000 instArrival: 136.000000 startExec: 136.000000 endExec: 136.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfa2194f51-0813-4087-a6a4-5fd8e8c373b3:(103) 139.320000] [run_log/INFO] output service 1 queueArrival: 139.000000 instArrival: 139.000000 startExec: 139.000000 endExec: 139.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputff5caeae3-8c80-4649-87a5-f747d0a7fe9e:(105) 142.320000] [run_log/INFO] output service 1 queueArrival: 142.000000 instArrival: 142.000000 startExec: 142.000000 endExec: 142.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputffbbfb39a-eb36-4185-a6ef-2c8b777e1e7d:(107) 145.320000] [run_log/INFO] output service 1 queueArrival: 145.000000 instArrival: 145.000000 startExec: 145.000000 endExec: 145.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf4083b9f0-c809-45f2-a5d6-1ed1c08331ee:(109) 148.320000] [run_log/INFO] output service 1 queueArrival: 148.000000 instArrival: 148.000000 startExec: 148.000000 endExec: 148.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf93990465-77cc-4987-9951-b423cb17cbea:(111) 151.320000] [run_log/INFO] output service 1 queueArrival: 151.000000 instArrival: 151.000000 startExec: 151.000000 endExec: 151.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfb73fb319-7805-4f82-a5be-bd42b29c1745:(113) 154.320000] [run_log/INFO] output service 1 queueArrival: 154.000000 instArrival: 154.000000 startExec: 154.000000 endExec: 154.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf35f84241-6983-4ba8-a3d8-5b27f926d748:(115) 157.320000] [run_log/INFO] output service 1 queueArrival: 157.000000 instArrival: 157.000000 startExec: 157.000000 endExec: 157.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfbf50e3ca-198b-4f6d-ae93-fe76437ba770:(117) 160.320000] [run_log/INFO] output service 1 queueArrival: 160.000000 instArrival: 160.000000 startExec: 160.000000 endExec: 160.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf6dcc6834-ac61-4676-b8a8-b1db39ad95c5:(119) 163.320000] [run_log/INFO] output service 1 queueArrival: 163.000000 instArrival: 163.000000 startExec: 163.000000 endExec: 163.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf0f77ed41-739f-46f2-bb58-4d8f41c5cd8d:(121) 166.320000] [run_log/INFO] output service 1 queueArrival: 166.000000 instArrival: 166.000000 startExec: 166.000000 endExec: 166.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfead73a80-ecc7-4b87-8586-6d28f4f07f10:(123) 169.320000] [run_log/INFO] output service 1 queueArrival: 169.000000 instArrival: 169.000000 startExec: 169.000000 endExec: 169.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf4117dca6-cc51-4933-8db2-d625cf6296cc:(125) 172.320000] [run_log/INFO] output service 1 queueArrival: 172.000000 instArrival: 172.000000 startExec: 172.000000 endExec: 172.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf99745561-7ca3-4058-9878-f6ccec735b81:(127) 175.320000] [run_log/INFO] output service 1 queueArrival: 175.000000 instArrival: 175.000000 startExec: 175.000000 endExec: 175.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf5b73f5a1-9ab3-40a6-9d71-73ffca810721:(129) 178.320000] [run_log/INFO] output service 1 queueArrival: 178.000000 instArrival: 178.000000 startExec: 178.000000 endExec: 178.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfff7fcb9b-f8ab-4d85-9e41-f32ef5b5ed05:(131) 181.320000] [run_log/INFO] output service 1 queueArrival: 181.000000 instArrival: 181.000000 startExec: 181.000000 endExec: 181.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfc9de5688-0159-43b5-929d-06be0a94b484:(133) 184.320000] [run_log/INFO] output service 1 queueArrival: 184.000000 instArrival: 184.000000 startExec: 184.000000 endExec: 184.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf854a7c37-c16f-4111-9d46-4ce1d0ddb937:(135) 187.320000] [run_log/INFO] output service 1 queueArrival: 187.000000 instArrival: 187.000000 startExec: 187.000000 endExec: 187.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf4c75a0e3-ce05-4529-8273-09b0b80eef8e:(137) 190.320000] [run_log/INFO] output service 1 queueArrival: 190.000000 instArrival: 190.000000 startExec: 190.000000 endExec: 190.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf5c0c54ce-0b42-4f85-8406-6e7ab9739b02:(139) 193.320000] [run_log/INFO] output service 1 queueArrival: 193.000000 instArrival: 193.000000 startExec: 193.000000 endExec: 193.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfa3f13d8d-17a1-4dd4-9069-45dfe89b5ee5:(141) 196.320000] [run_log/INFO] output service 1 queueArrival: 196.000000 instArrival: 196.000000 startExec: 196.000000 endExec: 196.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf8930d01a-ab95-4372-843d-fdd7792514b8:(143) 199.320000] [run_log/INFO] output service 1 queueArrival: 199.000000 instArrival: 199.000000 startExec: 199.000000 endExec: 199.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfc9e3ceea-f258-4dcb-9ae1-5024cf8039fc:(145) 202.320000] [run_log/INFO] output service 1 queueArrival: 202.000000 instArrival: 202.000000 startExec: 202.000000 endExec: 202.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf24823374-c6a4-4fa2-a11d-34bdaa2ad437:(147) 205.320000] [run_log/INFO] output service 1 queueArrival: 205.000000 instArrival: 205.000000 startExec: 205.000000 endExec: 205.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf622bd5f2-7f76-4159-9cad-cda51132af2d:(149) 208.320000] [run_log/INFO] output service 1 queueArrival: 208.000000 instArrival: 208.000000 startExec: 208.000000 endExec: 208.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf9bc2696c-068f-4bd9-93d8-d0387d58fb9a:(151) 211.320000] [run_log/INFO] output service 1 queueArrival: 211.000000 instArrival: 211.000000 startExec: 211.000000 endExec: 211.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputff554868b-a8a9-40b3-bbe0-04f967e60594:(153) 214.320000] [run_log/INFO] output service 1 queueArrival: 214.000000 instArrival: 214.000000 startExec: 214.000000 endExec: 214.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf258ce623-43c4-4a50-bc2d-b7236e8007b0:(155) 217.320000] [run_log/INFO] output service 1 queueArrival: 217.000000 instArrival: 217.000000 startExec: 217.000000 endExec: 217.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfa126d4b6-b9cb-4cc2-91ec-f9ac298c9fae:(157) 220.320000] [run_log/INFO] output service 1 queueArrival: 220.000000 instArrival: 220.000000 startExec: 220.000000 endExec: 220.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf04b4fa32-8608-4bf1-8a01-3c0f053f2a41:(159) 223.320000] [run_log/INFO] output service 1 queueArrival: 223.000000 instArrival: 223.000000 startExec: 223.000000 endExec: 223.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf7f8c86ba-2812-41fc-a9d8-fee47cafc427:(161) 226.320000] [run_log/INFO] output service 1 queueArrival: 226.000000 instArrival: 226.000000 startExec: 226.000000 endExec: 226.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf7a40e535-c1e6-4ca2-923b-f1c4f5aa4b6e:(163) 229.320000] [run_log/INFO] output service 1 queueArrival: 229.000000 instArrival: 229.000000 startExec: 229.000000 endExec: 229.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf79ad1973-3261-46c1-81bc-98d3014fdb6e:(165) 232.320000] [run_log/INFO] output service 1 queueArrival: 232.000000 instArrival: 232.000000 startExec: 232.000000 endExec: 232.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfc0ebe746-edb6-4686-98e4-322179ef7efa:(167) 235.320000] [run_log/INFO] output service 1 queueArrival: 235.000000 instArrival: 235.000000 startExec: 235.000000 endExec: 235.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfd10cbcda-0334-4567-b96b-2c003918c2f8:(169) 238.320000] [run_log/INFO] output service 1 queueArrival: 238.000000 instArrival: 238.000000 startExec: 238.000000 endExec: 238.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf7a8256cc-e1bb-49ca-9371-dd05b81c5192:(171) 241.320000] [run_log/INFO] output service 1 queueArrival: 241.000000 instArrival: 241.000000 startExec: 241.000000 endExec: 241.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf8e03351a-1498-4cd1-a5f3-4a962ec0d04b:(173) 244.320000] [run_log/INFO] output service 1 queueArrival: 244.000000 instArrival: 244.000000 startExec: 244.000000 endExec: 244.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf049b69ee-748a-4ea1-bc3e-0606fcb4e671:(175) 247.320000] [run_log/INFO] output service 1 queueArrival: 247.000000 instArrival: 247.000000 startExec: 247.000000 endExec: 247.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf34ce8095-08a3-43a7-b78d-fb01327e3ab7:(177) 250.320000] [run_log/INFO] output service 1 queueArrival: 250.000000 instArrival: 250.000000 startExec: 250.000000 endExec: 250.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfdd580bf7-9735-4e1e-bbbd-835ffd33bdf5:(179) 253.320000] [run_log/INFO] output service 1 queueArrival: 253.000000 instArrival: 253.000000 startExec: 253.000000 endExec: 253.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfb641763e-1fd1-4fb0-befa-0fdccd433e4b:(181) 256.320000] [run_log/INFO] output service 1 queueArrival: 256.000000 instArrival: 256.000000 startExec: 256.000000 endExec: 256.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf3bdb7842-12ef-4865-af45-2909423de73a:(183) 259.320000] [run_log/INFO] output service 1 queueArrival: 259.000000 instArrival: 259.000000 startExec: 259.000000 endExec: 259.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfc0d17d33-19aa-460a-8b82-0d8e50649e68:(185) 262.320000] [run_log/INFO] output service 1 queueArrival: 262.000000 instArrival: 262.000000 startExec: 262.000000 endExec: 262.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf370ed91f-9eda-4f3a-9f70-adff82d531cc:(187) 265.320000] [run_log/INFO] output service 1 queueArrival: 265.000000 instArrival: 265.000000 startExec: 265.000000 endExec: 265.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf8a44d85f-f95b-425b-baeb-3f69e757082b:(189) 268.320000] [run_log/INFO] output service 1 queueArrival: 268.000000 instArrival: 268.000000 startExec: 268.000000 endExec: 268.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfad1b42e5-3c48-4845-b3fe-52fea6d38df5:(191) 271.320000] [run_log/INFO] output service 1 queueArrival: 271.000000 instArrival: 271.000000 startExec: 271.000000 endExec: 271.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfd8f23fa0-f09d-4c1d-a071-1d134bb87513:(193) 274.320000] [run_log/INFO] output service 1 queueArrival: 274.000000 instArrival: 274.000000 startExec: 274.000000 endExec: 274.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfc2015e91-f7b9-49f0-97ab-06638d5fbabe:(195) 277.320000] [run_log/INFO] output service 1 queueArrival: 277.000000 instArrival: 277.000000 startExec: 277.000000 endExec: 277.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfe46a2b28-7a52-4e6f-829b-51a580ca7446:(197) 280.320000] [run_log/INFO] output service 1 queueArrival: 280.000000 instArrival: 280.000000 startExec: 280.000000 endExec: 280.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf50194622-03c2-476b-95be-a466f8603bcd:(199) 283.320000] [run_log/INFO] output service 1 queueArrival: 283.000000 instArrival: 283.000000 startExec: 283.000000 endExec: 283.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf35b5796b-33e1-4bcf-9eeb-7595ecb0043f:(201) 286.320000] [run_log/INFO] output service 1 queueArrival: 286.000000 instArrival: 286.000000 startExec: 286.000000 endExec: 286.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputff958d649-b8f8-4f0e-8fc2-20c93be4c8f1:(203) 289.320000] [run_log/INFO] output service 1 queueArrival: 289.000000 instArrival: 289.000000 startExec: 289.000000 endExec: 289.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputfd4dd4f60-1248-4a93-afbe-ad6287ba913e:(205) 292.320000] [run_log/INFO] output service 1 queueArrival: 292.000000 instArrival: 292.000000 startExec: 292.000000 endExec: 292.320000 s1cost: 320000000.000000
+
+[cb1-2:etmservice1_dataoutputf1e89c47b-250b-4dae-8369-de2d76df08d3:(207) 295.320000] [run_log/INFO] output service 1 queueArrival: 295.000000 instArrival: 295.000000 startExec: 295.000000 endExec: 295.320000 s1cost: 320000000.000000
+
+[298.000000] [simix_kernel/INFO] CTRL-C pressed. The current status will be displayed before exit (disable that behavior with option 'debug/verbose-exit').
+[298.000000] [simix_kernel/INFO] 12 actors are still running, waiting for something.
+[298.000000] [simix_kernel/INFO] Legend of the following listing: "Actor <pid> (<name>@<host>): <status>"
+[298.000000] [simix_kernel/INFO] Actor 1 (main@cb1-200): waiting for sleeping activity 0x1591260 (sleep) in state 0 to finish
+[298.000000] [simix_kernel/INFO] Actor 2 (etmservice1_a@cb1-1): waiting for synchronization activity 0x1591690 () in state 0 to finish
+[298.000000] [simix_kernel/INFO] Actor 3 (etmservice1_service1polling@cb1-1)
+[298.000000] [simix_kernel/INFO] Actor 4 (TI35d9bfc3-3186-4b72-a8b1-2d6e00d61506@cb1-2): waiting for synchronization activity 0x1647d80 () in state 0 to finish
+[298.000000] [simix_kernel/INFO] Actor 5 (etmservice1_dataed3c0366-fa19-492f-94e8-b43754eb8147@cb1-2)
+[298.000000] [simix_kernel/INFO] Actor 6 (etmservice1_datapollEnd@cb1-2): waiting for synchronization activity 0x1648eb0 () in state 0 to finish
+[298.000000] [simix_kernel/INFO] Actor 7 (etmservice2_a@cb1-100): waiting for synchronization activity 0x157b9b0 () in state 0 to finish
+[298.000000] [simix_kernel/INFO] Actor 8 (etmservice2_service2polling@cb1-100)
+[298.000000] [simix_kernel/INFO] Actor 9 (TIe1bb5f13-886e-476e-81ba-44cd9e203367@cb1-101): waiting for synchronization activity 0x1761d80 () in state 0 to finish
+[298.000000] [simix_kernel/INFO] Actor 10 (etmservice2_data44186ffb-4974-4bd6-859b-2603a64268e6@cb1-101)
+[298.000000] [simix_kernel/INFO] Actor 11 (snd@cb1-1)
+[298.000000] [simix_kernel/INFO] Actor 12 (etmservice2_datapollEnd@cb1-101): waiting for synchronization activity 0x1763050 () in state 0 to finish
+Segmentation fault.

@@ -20,7 +20,7 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(run_log, "logs of the experiment");
  * Redirects the output of etm1 to the second service
  */
 void returnservice1(TaskDescription* td) {
-  XBT_INFO("output service 1 queueArrival: %f instArrival: %f startExec: %f endExec: %f\n", td->queueArrival, td->instArrival, td->startExec, td->endExec);
+  XBT_INFO("output service 1 queueArrival: %f instArrival: %f startExec: %f endExec: %f s1cost: %f\n", td->queueArrival, td->instArrival, td->startExec, td->endExec, td->flopsPerServ.at(0));
 	XBT_DEBUG("Return function of service service1");
 	s4u_Mailbox* mservice2 = s4u_Mailbox::by_name("service2");
 	mservice2->put(td, td->dSize);
@@ -45,7 +45,7 @@ XBT_DEBUG("CLOSE SPANS");
 	// here you can put the msg to a sink if desired
 }
 
-void run(int servFlops) {
+void run(int servFlops, std::string tsFile) {
   std::cout << "Service with " << servFlops << " flops" << std::endl;
   /* ETM1 */
   std::vector<std::string> vservice1 = std::vector<std::string>();
@@ -77,7 +77,8 @@ void run(int servFlops) {
     * Create data source
   */
   //DataSourceFixedInterval* ds = new DataSourceFixedInterval("service1", .5, 10000);
-  DataSourceTSFile* ds = new DataSourceTSFile("service1", "default5TimeStamps.csv", 1000);
+  //DataSourceTSFile* ds = new DataSourceTSFile("service1", "default5TimeStamps.csv", 1000);
+  DataSourceTSFile* ds = new DataSourceTSFile("service1", tsFile, 1000);
 	simgrid::s4u::ActorPtr dataS = simgrid::s4u::Actor::create("snd", simgrid::s4u::Host::by_name("cb1-1"), [&]{ds->run();});
 
   // kill policies and ETMs
@@ -90,14 +91,14 @@ void run(int servFlops) {
 
 
 int main(int argc, char* argv[]) {
-  	if(argc <= 2){
-		std::cout << "required parameters:  <platform-file> <serviceflops>" << std::endl;
+  	if(argc <= 3){
+		std::cout << "required parameters:  <platform-file> <serviceflops> <tsFile>" << std::endl;
 		exit(1);
 	}
 	simgrid::s4u::Engine* e = new simgrid::s4u::Engine(&argc, argv);
 	e->load_platform(argv[1]);
 
-	simgrid::s4u::Actor::create("main", simgrid::s4u::Host::by_name("cb1-200"), [&]{run(std::stoi(argv[2]));});
+	simgrid::s4u::Actor::create("main", simgrid::s4u::Host::by_name("cb1-200"), [&]{run(std::stoi(argv[2]), argv[3]);});
 	e->run();
 	return 0;
 }
