@@ -21,7 +21,8 @@ parser = argparse.ArgumentParser()
 # Adding optional argument
 parser.add_argument("-r", "--rmqHost", help = "RabbitMQ host", required=True)
 parser.add_argument("-o", "--outputMB", help = "RabbitMQ output queue", required=True)
-parser.add_argument("-n", "--sName", help = "Service name", required=True)        
+parser.add_argument("-n", "--sName", help = "Service name", required=True)
+parser.add_argument("-t", "--tsFile", help="timestamp file name")
 
 # Read arguments from command line
 args = parser.parse_args()
@@ -63,7 +64,10 @@ def timeStampFileTrigger(fp):
         
 
 nbP = 20
-timeStampFileTrigger("default5TimeStamps.csv")
+if(args.tsFile):
+    timeStampFileTrigger(args.tsFile)
+else:
+    timeStampFileTrigger("default5TimeStamps.csv")
 #for p in np.arange(.25, .07, -.005):
 #    periodicTrigger(p, nbP)
 #    time.sleep(5)
