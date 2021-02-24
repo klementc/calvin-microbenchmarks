@@ -4,13 +4,17 @@ BEGIN {
 #    print ("service, txDur, servDur,wait,nbIter")
 }
 
+NR == 4 {
+    DELTA = $9
+#    print("substract delta from ts:"$9)
+}
 
 /INFO compute fin req/{
-    print($9","$5","$13","$11","$15","$17)
+    print($19","$9 - DELTA","$5","$13","$11","$15","$17","$21)
 }
 
 /INFO sink Received/{
-    print($10","$5","$8",0,0,NaN")
+    print($13","$9","$5","$11",0,0,NaN,0")
 }
 
 END {

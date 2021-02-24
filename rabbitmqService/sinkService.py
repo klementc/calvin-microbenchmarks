@@ -23,6 +23,11 @@ logger.addHandler(ch)
 
 
 def main(args):
+    if(args.expID):
+        expID=args.expID
+    else:
+        expID="no-id"
+
     logger.info("%s Starting sink service, mq host: %r, input: %r"%(args.sName, args.rmqHost, args.inputMB))
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
@@ -42,7 +47,7 @@ def main(args):
     def callback(ch, method, properties, body):
         ts = float(body.decode())
         diff = time.time() - ts
-        logger.info("%s Received txDur: %r ts: %r" %(args.sName, diff,time.time()))
+        logger.info("%s pad Received ts: %r txDur: %r id: %s" %(args.sName,time.time(), diff, expID))
         span_ctx = tracer.extract(Format.TEXT_MAP, properties.headers)
         print(span_ctx)
         child = tracer.start_span(operation_name='sink',
@@ -61,7 +66,7 @@ if __name__ == '__main__':
         parser.add_argument("-r", "--rmqHost", help = "RabbitMQ host", required=True)
         parser.add_argument("-i", "--inputMB", help = "RabbitMQ input queue (queue to receive requests)", required=True)
         parser.add_argument("-n", "--sName", help = "Service name", required=True)        
-
+        parser.add_argument("-e", "--expID", help = "Experiment id")        
         # Read arguments from command line
         args = parser.parse_args()
 

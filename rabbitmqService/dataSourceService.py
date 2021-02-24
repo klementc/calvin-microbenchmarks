@@ -23,10 +23,15 @@ parser.add_argument("-r", "--rmqHost", help = "RabbitMQ host", required=True)
 parser.add_argument("-o", "--outputMB", help = "RabbitMQ output queue", required=True)
 parser.add_argument("-n", "--sName", help = "Service name", required=True)
 parser.add_argument("-t", "--tsFile", help="timestamp file name")
+parser.add_argument("-e", "--expID", help = "Experiment id")        
 
 # Read arguments from command line
 args = parser.parse_args()
 
+if(args.expID):
+    expID=args.expID
+else:
+    expID="no-id"
 
 
 connection = pika.BlockingConnection(
@@ -42,11 +47,11 @@ channel.queue_declare(queue=args.outputMB)
 #    time.sleep(3)
 
 def trigger():
-    logger.info("%s Source send request at time %r"%(args.sName, time.time()))
+    logger.info("%s Source send request at time %r expID: %s"%(args.sName, time.time(), expID))
     channel.basic_publish(exchange='', routing_key=args.outputMB, body=str(time.time()))
 
 def periodicTrigger(period, nbReq):
-    logger.info( "%s Periodic trigger start: p=%r, nbReq=%r"%(args.sName, period, nbReq))
+    logger.info( "%s Periodic trigger start: p=%r nbReq=%r"%(args.sName, period, nbReq))
     for i in range(nbReq):
         time.sleep(period)
         trigger()

@@ -3,6 +3,7 @@
 resF="results"
 logDir="./logs"
 resultsDir="./res"
+expID=`date +%Y-%m-%d_%H-%M-%S`
 
 if [[ ! -e ${logDir} ]]
 then
@@ -14,7 +15,7 @@ then
     mkdir -p ${resultsDir}
 fi
 
-echo "ts,service, txDur, servDur,wait,nbIter" > "${resultsDir}/${resF}.csv"
+echo "expID,ts,service, txDur, servDur,wait,nbIter,compDur" > "${resultsDir}/${resF}.csv"
 
 echo "run calibration"
 
@@ -22,18 +23,18 @@ echo "run calibration"
 for s in `seq 100000 200000 5000000`
 do
     suffix="1_${s}"
-    echo "ts,service, txDur, servDur,wait,nbIter" > "${resultsDir}/${resF}_${suffix}.csv"
+    echo "expID,ts,service, txDur, servDur,wait,nbIter,compDur" > "${resultsDir}/${resF}_${suffix}.csv"
     bash deployInfra.sh kill
 
     
     echo "-------------------------------"
     echo "starting experiment loops: ${s}"
     echo "deploy Infrastructure 1..."
-    N1COST="${s}" logDir="${logDir}" suffix="${suffix}" bash deployInfra.sh 1
+    expID="${expID}" N1COST="${s}" logDir="${logDir}" suffix="${suffix}" bash deployInfra.sh 1
     echo "[x] done"
 
     echo "launch data source"
-    python dataSourceService.py -r localhost -o computeTask -n source
+    python3 dataSourceService.py -r localhost -o computeTask -n source -e ${suffix} #${expID}
 
     sleep 10
     echo "-------------------------------"

@@ -25,6 +25,10 @@ logger.addHandler(ch)
 
 
 def main(args):
+    if(args.expID):
+        expID=args.expID
+    else:
+        expID="no-id"
     logger.info("Starting service, mq host: %r, input: %r, output: %r"%(args.rmqHost, args.inputMB, args.outputMB))
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=args.rmqHost))
     channelIn = connection.channel()
@@ -72,7 +76,7 @@ def main(args):
         tracer.inject(sp,opentracing.Format.HTTP_HEADERS, h)
         co.basic_publish(exchange='', routing_key=args.outputMB, properties=pika.BasicProperties(headers=h), body=str(time.time()))
         sp.finish()
-        logger.info("%s fin req ts: %r totDur: %r txDur: %r wait: %r iter: %s"%(args.sName, time.time(), time.time()-recTS, diff, execTS-recTS, args.computeCost))
+        logger.info("%s fin req ts: %r totDur: %r txDur: %r wait: %r iter: %s id: %s computeDur: %r"%(args.sName, time.time(), time.time()-recTS, diff, execTS-recTS, args.computeCost, expID, time.time()-execTS))
 
 
     channelIn.basic_consume(queue=args.inputMB, on_message_callback=callback, auto_ack=True)
@@ -89,7 +93,7 @@ if __name__ == '__main__':
         parser.add_argument("-o", "--outputMB", help = "RabbitMQ output queue (queue to output results)", required=True)
         parser.add_argument("-n", "--sName", help = "Service name", required=True)        
         parser.add_argument("-c", "--computeCost", help = "Iterations amount", required=True)        
-
+        parser.add_argument("-e", "--expID", help = "Experiment id")        
         # Read arguments from command line
         args = parser.parse_args()
         
