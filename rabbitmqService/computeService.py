@@ -3,6 +3,7 @@
 import argparse
 import pika, sys, os
 import threading
+from threading import Lock
 import json
 import opentracing
 import time
@@ -22,15 +23,18 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s %(message)s')
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-
+lk= Lock()
+parallelExec = 0
 
 def main(args):
+    global parallelExec
     if(args.expID):
         expID=args.expID
     else:
         expID="no-id"
     logger.info("Starting service, mq host: %r, input: %r, output: %r"%(args.rmqHost, args.inputMB, args.outputMB))
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=args.rmqHost))
+
     channelIn = connection.channel()
     channelIn.queue_declare(queue=args.inputMB)
     config = Config(
@@ -63,12 +67,21 @@ def main(args):
         x.start()
 
     def thread_exec(sp, recTS, diff):
+        global parallelExec
         execTS = time.time()
         logger.debug("%s start executing the request at time %r (waited %r)"%(args.sName, execTS, execTS-recTS,))
+        lk.acquire()
+        parallelExec += 1
+        lk.release()
         for i in range(int(args.computeCost)):
             continue
+        endExTS = time.time()
+        lk.acquire()
+        parallelExec -= 1
+        lk.release()
         #https://github.com/pika/pika/issues/511
         connection = pika.BlockingConnection(pika.ConnectionParameters(host=args.rmqHost))
+
         co = connection.channel()
         co.queue_declare(queue=args.outputMB)
 
@@ -76,7 +89,9 @@ def main(args):
         tracer.inject(sp,opentracing.Format.HTTP_HEADERS, h)
         co.basic_publish(exchange='', routing_key=args.outputMB, properties=pika.BasicProperties(headers=h), body=str(time.time()))
         sp.finish()
-        logger.info("%s fin req ts: %r totDur: %r txDur: %r wait: %r iter: %s id: %s computeDur: %r"%(args.sName, time.time(), time.time()-recTS, diff, execTS-recTS, args.computeCost, expID, time.time()-execTS))
+        logger.info("%s fin req ts: %r totDur: %r txDur: %r wait: %r iter: %s id: %s computeDur: %r parExec: %r"%(args.sName, time.time(), time.time()-recTS, diff, execTS-recTS, args.computeCost, expID, endExTS-execTS, parallelExec))
+
+        #        logger.info("%s fin req ts: %r totDur: %r txDur: %r wait: %r iter: %s id: %s computeDur: %r parExec: %r"%(args.sName, time.time(), time.time()-recTS, diff, execTS-recTS, args.computeCost, expID, time.time()-execTS, parallelExec))
 
 
     channelIn.basic_consume(queue=args.inputMB, on_message_callback=callback, auto_ack=True)
