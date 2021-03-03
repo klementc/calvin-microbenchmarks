@@ -8,6 +8,12 @@
 [ -z "${tsFile}" ] && tsFile="../../rabbitmqService/tsCal.csv"
 #[ -z "${expID}" ]  && expID=`date +%Y-%m-%d_%H-%M-%S`
 
+if [[ ! -e ${logDir} ]]
+then
+    mkdir -p ${logDir}
+fi
+
+
 # IMPORTANT: remove previous services
 echo "kill previous services and deploy infrastructure (deployInfra.sh 1)"
 bash deployInfra.sh kill

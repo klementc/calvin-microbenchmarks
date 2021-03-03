@@ -47,6 +47,6 @@ do
 	echo "TODO PARSE RESULTS OF SINK AND SOURCE"
 	# compute service
 
-	tail -n+2 "${logDir}/results_${N1COST}_${suffix}.csv" >> "${logDir}/aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
+	tail -n+2 "${logDir}/results_${s}_${suffix}.csv" >> "${logDir}/aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
     done   
 done
