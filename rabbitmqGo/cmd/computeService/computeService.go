@@ -95,13 +95,12 @@ func main() {
 
 	// counter for parallelisation degree measurement
 	counterPar := safecounter{val: 0}
-	counterTotRec := safecounter{val: 0}
+	counterTotRecProcessed := safecounter{val: 0}
 
 	sendToNextServ := make(chan int)
 	go func() {
 		for range /*d :=*/ msgs {
 			beginTime := time.Now()
-			counterTotRec.incr()
 
 			go func(beg time.Time) {
 				//log.Println("Start execution of request")
@@ -111,10 +110,10 @@ func main() {
 					/* Do Nothing */
 				}
 				endLoopTime := time.Now()
+				go counterTotRecProcessed.incr()
+
 				// format: serviceName nbIter timestamp totDurInServ computeDur parExec totReqProcessed
-				log.Println("EndReqLog", *serviceName, *computationCost, time.Now().UnixNano(),
-					time.Now().Sub(beginTime).Nanoseconds(), endLoopTime.Sub(startLoopTime).Nanoseconds(),
-					counterPar.getVal(), "a", counterTotRec.getVal())
+				log.Println("EndReqLog", *serviceName, *computationCost, time.Now().UnixNano(), time.Now().Sub(beginTime).Nanoseconds(), endLoopTime.Sub(startLoopTime).Nanoseconds(), counterPar.getVal(), counterTotRecProcessed.getVal())
 				// one less once parallel process once we finished the loop
 				go counterPar.dec()
 				sendToNextServ <- 1

@@ -55,12 +55,12 @@ func main() {
 	forever := make(chan bool)
 
 	go func() {
-		for d := range msgs {
-			log.Println(*serviceName, " received a message:", d.Body)
+		for range /*d := */ msgs {
+			log.Println(*serviceName, "received a message")
 
 		}
 	}()
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	log.Printf(" [*] Sink Waiting for messages. To exit press CTRL+C")
 	<-forever
 }
