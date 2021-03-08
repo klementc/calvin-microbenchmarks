@@ -48,6 +48,7 @@ func main() {
 	outputMB := flag.String("o", "serviceOut", "Output Mailbox")
 	serviceName := flag.String("n", "computeService1", "Service name")
 	computationCost := flag.Int("c", 100000, "Computation cost (iteration amount)")
+	parallelDegree := flag.Int("p", 10, "Max amount of coroutines executing the loop in parallel)")
 
 	flag.Parse()
 	/* END CLI flags*/
@@ -97,9 +98,13 @@ func main() {
 	counterPar := safecounter{val: 0}
 	counterTotRecProcessed := safecounter{val: 0}
 
+	blockParDegree := make(chan int, *parallelDegree)
 	sendToNextServ := make(chan int)
 	go func() {
 		for range /*d :=*/ msgs {
+			/*block if more than N request*/
+			blockParDegree <- 1
+
 			beginTime := time.Now()
 
 			go func(beg time.Time) {
@@ -116,6 +121,10 @@ func main() {
 				log.Println("EndReqLog", *serviceName, *computationCost, time.Now().UnixNano(), time.Now().Sub(beginTime).Nanoseconds(), endLoopTime.Sub(startLoopTime).Nanoseconds(), counterPar.getVal(), counterTotRecProcessed.getVal())
 				// one less once parallel process once we finished the loop
 				go counterPar.dec()
+
+				/*release buffer position to allow another routine to execute the loop*/
+				<-blockParDegree
+
 				sendToNextServ <- 1
 			}(beginTime)
 

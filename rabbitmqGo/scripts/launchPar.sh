@@ -6,6 +6,7 @@
 [ -z "${suffix}" ] && suffix="DEFAULT"
 [ -z "${tsFile}" ] && tsFile="../../rabbitmqService/tsCal.csv"
 [ -z "${hostLogPath}" ] && hostLogPath="~/logs_expe/goLogs/" 
+[ -z "${parD}" ] && parD="25"
 
 [ -z "${start}" ] && start=1000000
 [ -z "${iter}" ] && iter=5000000

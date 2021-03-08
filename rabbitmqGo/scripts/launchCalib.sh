@@ -6,7 +6,7 @@
 [ -z "${suffix}" ] && suffix="DEFAULT"
 [ -z "${rootCode}" ] && rootCode="../"
 [ -z "${tsFile}" ] && tsFile="../../rabbitmqService/tsCal.csv"
-
+[ -z "${parD}" ] && parD="25"
 
 [ -z "${start}" ] && start=1000000
 [ -z "${iter}" ] && iter=5000000
@@ -36,10 +36,10 @@ do
 	echo "-------------------------------"
 	echo "starting experiment loops: ${s}, sample: ${sample}"	
 	echo "Build Infrastructure"
-	N1COST="${s}" logDir="${logDir}" suffix="${suffix}" bash deployInfra.sh 1
+	parD=${parD} N1COST="${s}" logDir="${logDir}" suffix="${suffix}" bash deployInfra.sh 1
 	sleep 1
 	echo "Start data Source"
-	N1COST="${s}" logDir="${logDir}" suffix="${suffix}" tsFile="${tsFile}" bash launchOnce.sh 
+	parD=${parD} N1COST="${s}" logDir="${logDir}" suffix="${suffix}" tsFile="${tsFile}" bash launchOnce.sh 
 	
 	sleep 10	
 	echo "-------------------------------"
