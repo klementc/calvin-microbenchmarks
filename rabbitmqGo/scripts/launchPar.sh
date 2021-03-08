@@ -51,7 +51,7 @@ do
 	hostMQ="${hostMQTemplate}${rmqPort1E}"
 
 	# launch experiment
-	docker run -d -v ~/logs_expe/goLogs:/logs --cpus=1.0 --cpuset-cpus=$((${firstCore}+${sample})) -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "cd scripts ; hostMQ=${hostMQ} N1COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} bash launchOnce.sh"
+	docker run -d -v ~/logs_expe/goLogs:/logs --cpus=1.0 --cpuset-cpus=$((${firstCore}+${sample})) -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "cd scripts ; parD=${parD} hostMQ=${hostMQ} N1COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} bash launchOnce.sh"
 	
     done
 
