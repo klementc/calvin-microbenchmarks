@@ -30,15 +30,15 @@ rmqPort1=5672
 rmqPort2=15672
 hostMQTemplate="amqp://guest:guest@localhost:"
 
-for sample in `seq 1 ${nbSamples}`
-do
-    rmqPort1E=$((${sample}+${rmqPort1}))
-    rmqPort2E=$((${sample}+${rmqPort2}))
-    hostMQ="${hostMQTemplate}${rmqPort1E}"
+#for sample in `seq 1 ${nbSamples}`
+#do
+#    rmqPort1E=$((${sample}+${rmqPort1}))
+#    rmqPort2E=$((${sample}+${rmqPort2}))
+#    hostMQ="${hostMQTemplate}${rmqPort1E}"
     # deploy docker for rmq
-    echo "Launch rabbitmq docker container on localhost and jaeger ${hostMQ} ${rmqPort2E} ${rmqPort1E}"
-    docker run -d -p ${rmqPort2E}:15672 -p ${rmqPort1E}:5672 --hostname my-rabbit rabbitmq:3
-done
+#    echo "Launch rabbitmq docker container on localhost and jaeger ${hostMQ} ${rmqPort2E} ${rmqPort1E}"
+#    docker run -d -p ${rmqPort2E}:15672 -p ${rmqPort1E}:5672 --hostname my-rabbit rabbitmq:3
+#done
 
 for s in `seq ${start} ${iter} ${end}`
 do
@@ -49,6 +49,9 @@ do
 	rmqPort1E=$((${sample}+${rmqPort1}))
 	rmqPort2E=$((${sample}+${rmqPort2}))
 	hostMQ="${hostMQTemplate}${rmqPort1E}"
+	echo "Launch rabbitmq docker container on localhost and jaeger ${hostMQ} ${rmqPort2E} ${rmqPort1E}"
+	docker run -d -p ${rmqPort2E}:15672 -p ${rmqPort1E}:5672 --hostname my-rabbit rabbitmq:3
+	sleep 2
 
 	# launch experiment
 	docker run -d -v ~/logs_expe/goLogs:/logs --cpus=1.0 --cpuset-cpus=$((${firstCore}+${sample})) -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "cd scripts ; parD=${parD} hostMQ=${hostMQ} N1COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} bash launchOnce.sh"
@@ -60,6 +63,8 @@ do
     # destroy containers
     bash deployInfra.sh kill
 
+    docker stop $(docker ps -q) ; docker rm $(docker ps -aq)
+    docker system prune --volumes -f
     # gather results
     for sample in `seq 1 ${nbSamples}`
     do
