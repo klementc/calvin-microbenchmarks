@@ -7,6 +7,7 @@
 [ -z "${end}" ] && end="50000000"
 [ -z "${incr}" ] && incr="2000000"
 [ -z "${tsFile}" ] && tsFile="default5TimeStamps.csv"
+[ -z "${parDeg}" ] && parDeg=10000
 
 if [[ ! -e ${logDir} ]]
 then
@@ -23,7 +24,7 @@ do
     echo "$(pwd)/dejavu_platform.xml"
     echo "-------------------------------"
     echo "starting experiment loops: ${s}"
-    ./bench1  "$(pwd)/dejavu_platform.xml" ${s} ${tsFile} > ${logDir}/sg_${s}.log 2>&1
+    ./bench1  "$(pwd)/dejavu_platform.xml" ${s} ${tsFile} ${parDeg} > ${logDir}/sg_${s}.log 2>&1
     echo "done"
 
     awk -f parse.awk "${logDir}/sg_${s}.log" > "${logDir}/${resF}_${s}.csv"
