@@ -1,0 +1,122 @@
+* Notes transposer DSB dans SG
+** But
+
+Passer d'une application microservices complexe dans le monde réelle à une
+application simulée dans SG afin de pouvoir faire des what if analysis.
+
+Pour cela, un exemple: le réseau social de deathstarbench. Un des plus gros
+systèmes qu'on peut trouver librement. 
+** Difficultés
+
+Dans SG on modélise seulement des passages d'un service à un autre. On ne
+modélise pas des requetes réponses, comme on a avec par exemple du rpc comme
+utilisé dans deathstarbench.
+
+2 possibilités:
+- rajouter ca dans SimGrid pour avoir des comportements identiques: problème, il
+  faut tout refaire parce que je vois pas comment le faire avec ce qu'il y a
+  pour l'instant
+- partir du principe que l'application dans SimGrid sera un petit peu
+  simplifiée. Cf ci dessous, on peut essayer de rassembler les rpc qui ont lieu
+  dans un meme service ensemble. Pour faire comme une réponse, si on a
+  A-RPC()->B, on peut faire un passage de serv A, vers serv B, puis refaire une
+  communication avec un cout cpu quasi nul qui retourn vers A. (Ca se complique
+  quand on a pleins d'appels imbriqués).
+
+Dans tous les cas, si on reproduisait exactement à l'identique dans SimGrid, on
+risque d'avoir des soucis de passage a l'échelle car on recoderait simplement
+l'intégralité de l'app dans simgrid. PAS LE BUT..
+A mon avis, il faut faire un compromis: simplifier les graphes d'appels, tout en
+gardant le meme nombre de services.
+
+** Approche
+
+Pour essayer de représenter l'application
+1. on prend des traces avec jaeger
+2. On regarde pour chaque type de requête
+   1. Le nombre de services impliqués (cf screens ci dessous)
+   2. l'ordre des appels aux différents services
+   3. on simplifie: plusieurs appels a des fonctions du meme service à la suite
+      = 1 seule requête de taille égale à la somme des durées
+   4. transition = quand un service fait appel à un autre. Difficulté quand le
+      service fait appel à un autre en plein milieu de son execution? Je sais
+      pas comment faire là. Peut être simplifier et simplement dire qu'on a exec
+      puis comm dans tous les cas
+3. Dans simgrid, pour chaque type de requête, on met le champ qui va avec dans
+   les taskDescription. Dans le service, on récupère le cout en fonction du type
+   de requête, puis on execute. La fonction de retour (codée par l'utilisateur
+   en fonction des services qui suivent), est ensuite lancée.
+
+
+** Exemples
+
+*** RegisterUser
+
+[[./timeline_register.png]]
+
+[[./graph_register.png]]
+
+
+Ici c'est assez simple, 3 services:
+- web-server
+- user-service
+- social-graph-service
+
+On récupère facilement une séquence:
+1: somme des durées des 3 spans du web server.
+2: somme des durées des 2 user-services consécutifs
+3: somme des durées des 2 social-graph consécutifs
+
+on a alors 1->2->3 dans SG pour les taskDescription de type "register", avec
+comme coûts de calcul les somme des durées moyennes.
+
+*** Follow
+
+[[./timeline_follow.png]]
+
+[[./graph_follow.png]]
+
+Ici c'est plus embêtant car on a user-service qui est éxécuté au milieu de
+l'exec de social-graph-service. Si on part du principe qu'on simplifie en
+exécution puis comm, on peut faire 4 groupe:
+
+1: les 3 nginx
+2: le 1er socialgraph
+3: les 2 user-services
+4: les 4 social-graph
+
+et ensuite faire 1->2->3->4
+
+C'est faisable, mais ca fera forcément une perte de réalisme, car on ne fait pas
+les appels exactement aux mêmes moments. On pourrait aussi peut être avoir des
+soucis par rapport aux files d'attentes entre 3 et 4 peut être, qui gonfleraient
+le temps d'attente si surchargées.
+
+*** ReadUserTimeline
+
+[[./timeline_readUserTimeline.png]]
+
+[[./graph_readUserTimeline.png]]
+
+meme problème que juste avant, mais encore une fois réglable si on simplifie les choses
+
+*** Compose message
+
+[[./timeline_compose.png]]
+
+[[./graph_compose.png]]
+
+
+La même principe mais avec beaucoup plus de services différents (10). Ici on
+On voit qu'une séquence d'opération peut être obtenue en faisa nt un parcours en
+profondeur du DAG. Dans ce parcours, lorsuqe plusieurs noeuds sont dans le même
+service, on les fusionne, et on somme leurs durées d'éxécution. 
+
+2 questions: 
+- Est ce que les 2 suites d'utilisation de compose-post-service doivent être
+  fusionnées?
+- il faut différencier dans SG les différents appels à un même service pour une
+  même requête, mais qui ont des durées différentes (compose-post-service dans
+  ce cas) 
+
+
