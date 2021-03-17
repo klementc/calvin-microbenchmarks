@@ -47,7 +47,6 @@ Pour essayer de représenter l'application
    de requête, puis on execute. La fonction de retour (codée par l'utilisateur
    en fonction des services qui suivent), est ensuite lancée.
 
-
 ** Exemples
 
 *** RegisterUser
@@ -70,7 +69,7 @@ On récupère facilement une séquence:
 on a alors 1->2->3 dans SG pour les taskDescription de type "register", avec
 comme coûts de calcul les somme des durées moyennes.
 
-*** Follow
+*** Followx
 
 [[./timeline_follow.png]]
 
@@ -119,4 +118,53 @@ service, on les fusionne, et on somme leurs durées d'éxécution.
   même requête, mais qui ont des durées différentes (compose-post-service dans
   ce cas) 
 
+** Premiers résultats
+
+*** Récupérer les traces
+
+1. Lancer DSB social network
+2. Utiliser ./wrk pour envoyer des requêtes (readhometimeline, readusertimeline
+   et compose dans ce cas)
+3. Récupérer le .dot de ces requetes en passant par la front end jaeger
+   modifiée: https://github.com/klementc/jaeger-ui
+   1. **Attention: certaines traces semblent donner des résultats bizarres (pas
+      cohérents sur le selftime dans certains cas, par exemple la somme des
+      selftime de compose dans l'exemple ici est supérieure a la somme totale
+      alors qu'il n'y a que des followfrom (donc pas de trucs en parallèle
+      normalement)**
+4. Utiliser le script de génération de code
+   [https://github.com/klementc/internship_simgrid/blob/test/script/codeGen.py] pour créer le simulateur d'une ou
+   plusieurs requetes. Ex: [1][./a.cpp] , [2][./b.cpp], [3][./c.cpp]
+5. Ajouter des datasources pour avoir des envois de requêtes
+6. Lancer et analyser les résultats
+
+
+
+*** first Results:
+computation durations seem to be correct (overall is fine for readhome and
+readuser, not fine for compose, but it might be due to mistakes in the trace, or
+something I didn't catch about it, investigating from now)
+
+Traces are not closing at the right time compared to dsb because of 2 things: I
+just close al of them at the last service, and the "sequentialization" procedure
+to simplify the appllication modifies the order of certain calls, even though
+the computation cost remains the same as given in the trace.
+**** Readhome:
+Real world
+[[./jaeg_readhome.png]]
+simgird:
+[[./comp_readhome_sg.png]]
+
+**** ReadUser
+
+Real world:
+[[./jaeg_readuser.png]]
+simgrid
+[[./comp_readuser_sg.png]]
+
+**** Compose
+real world:
+[[./jaeg_compose.png]]
+simgrid:
+[[./comp_compose_sg.png]]
 
