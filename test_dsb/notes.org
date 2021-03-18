@@ -168,3 +168,30 @@ real world:
 simgrid:
 [[./comp_compose_sg.png]]
 
+*** taches en parallèle
+
+18/03: ajout possibilité d'avoir des taches en parallèle
+Pour cela, modif du script de génération de graphe.
+
+Lorsque l'on parcourt la trace, et qu'on tombe sur un noeud ayant plusieurs
+fils, le script demande a l'utilisateur si oui ou non, il veut que les taches
+filles se fassent en parallèle. Comme ca on a une "semi-automatisation".
+
+Garder a l'esprit que l'on ne peut pas avoir avec cette méthode les durées de
+bouten bout exactes, car on ne peut pas ici déclencher des taches en milieu de
+calcul ou équivalent. Cependant on peut s'en rapprocher.
+
+exemple lors de l'execution du script sur une trace de compose, ou on fait les 4
+taches qui suivent la front-end en parallèle:
+
+[[./example_script.png]]
+
+**** Resultat compose parallèle
+
+Code généré (plus le bazar que pour la version totalement séquentielle, mais ca
+fonctionne)
+[[./generated.cpp]]
+
+trace d'éxécution dans simgrid:
+
+[[./comp_compose_sg_par.png]]
