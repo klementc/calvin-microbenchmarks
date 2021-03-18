@@ -192,6 +192,10 @@ Code généré (plus le bazar que pour la version totalement séquentielle, mais
 fonctionne)
 [[./generated.cpp]]
 
+monde réel:
+
+[[./jaeg_compose.png]]
+
 trace d'éxécution dans simgrid:
 
 [[./comp_compose_sg_par.png]]
