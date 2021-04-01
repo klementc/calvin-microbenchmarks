@@ -1,21 +1,24 @@
 #!/bin/bash
 
 # launch locally (1 node) services of bench infrastructures
-[ -z "${N1COST}" ] && N1COST="10000000"
-[ -z "${logDir}" ] && logDir="./logs/"
+[ -z "${N1COST}" ] && N1COST="10000"
+[ -z "${N2COST}" ] && N2COST="10000"
+[ -z "${logDir}" ] && logDir="/logs/"
+[ -z "${hostLogPath}" ] && hostLogPath="${HOME}/logs_expe/goLogs/"
 [ -z "${suffix}" ] && suffix="DEFAULT"
 [ -z "${rootCode}" ] && rootCode="../"
 [ -z "${tsFile}" ] && tsFile="../../rabbitmqService/tsCal.csv"
-[ -z "${hostMQ}" ] && hostMQ="amqp://guest:guest@localhost:5672/"
 [ -z "${parD}" ] && parD="25"
+[ -z "${hostMQ}" ] && hostMQ="amqp://guest:guest@localhost:5672/"
+[ -z "${firstCore}" ] && firstCore=2
 
-if [[ ! -e ${scenario} ]]
+if [[ -z ${scenario} ]]
 then
     echo "Indicate the scenario to launch for launchOnce.sh to run"
     exit 1
 fi
 
-if [[ ! -e ${logDir} ]]
+if [[ -z ${logDir} ]]
 then
     mkdir -p ${logDir}
 fi
@@ -26,7 +29,7 @@ echo "Kill previous services and deploy infrastructure (deployInfra.sh)"
 bash deployInfra.sh kill
 sleep 10
 echo "Launch infrastructure with scenario ${scenario}"
-hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} suffix=${suffix} logDir=${logDir} N1COST=${N1COST} scenario=${scenario} bash deployInfra.sh
+firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} suffix=${suffix} logDir=${logDir} N1COST=${N1COST} scenario=${scenario} bash deployInfra.sh
 sleep 10
 echo "Launch datasource"
 ./${rootCode}/senderService -s "scenario${scenario}" -r ${hostMQ} -o serv1 -t ${tsFile} 2>&1 | tee ${logDir}/${scenario}_DS_${N1COST}_${suffix}.log

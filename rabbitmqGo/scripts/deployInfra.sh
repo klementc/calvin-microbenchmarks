@@ -5,7 +5,6 @@
 [ -z "${hostLogPath}" ] && hostLogPath="${HOME}/logs_expe/goLogs/"
 [ -z "${logDir}" ] && logDir="/logs/"
 [ -z "${suffix}" ] && suffix="DEFAULT"
-[ -z "${hostMQ}" ] && hostMQ="amqp://guest:guest@localhost:5672/"
 [ -z "${parD}" ] && parD="25"
 
 # kill already launched application
@@ -16,6 +15,12 @@ then
     pkill -9 computeService
     pkill -9 sinkService
     exit
+fi
+
+if [[ -z "${hostMQ}" ]]
+then
+    echo "No hostMQ provided, terminate (deployinfra.sh)"
+    exit 1
 fi
 
 if [[ -z ${firstCore} ]]

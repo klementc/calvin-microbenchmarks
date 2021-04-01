@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # launch locally (1 node) services of bench infrastructures
-[ -z "${N1COST}" ] && N1COST="10000000"
-[ -z "${logDir}" ] && logDir="./logs/"
+[ -z "${logDir}" ] && logDir="/logs/"
 [ -z "${suffix}" ] && suffix="DEFAULT"
 [ -z "${tsFile}" ] && tsFile="../../rabbitmqService/tsCal.csv"
 [ -z "${hostLogPath}" ] && hostLogPath="${HOME}/logs_expe/goLogs/"
