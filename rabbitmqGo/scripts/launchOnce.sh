@@ -29,7 +29,7 @@ echo "Kill previous services and deploy infrastructure (deployInfra.sh)"
 bash deployInfra.sh kill
 sleep 10
 echo "Launch infrastructure with scenario ${scenario}"
-firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} suffix=${suffix} logDir=${logDir} N1COST=${N1COST} scenario=${scenario} bash deployInfra.sh
+firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} suffix=${suffix} logDir=${logDir} N1COST=${N1COST} N2COST=${N2COST} scenario=${scenario} bash deployInfra.sh
 sleep 10
 echo "Launch datasource"
 docker run -v ${hostLogPath}:/logs --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/senderService -s scenario${scenario} -r ${hostMQ} -o serv1 -t ${tsFile} 2>&1 | tee ${logDir}/${scenario}_DS_${N1COST}_${suffix}.log"
@@ -43,7 +43,7 @@ elif [[ ${scenario} = "2" ]]
 then
     echo "See ${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
     awk -f parse.awk "${hostLogPath}/2_S1_${N1COST}_${suffix}.log" > "${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
-    awk -f parse.awk "${hostLogPath}/2_S2_${N2COST}_${suffix}.log" > "${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
+    awk -f parse.awk "${hostLogPath}/2_S2_${N2COST}_${suffix}.log" | tail -n+2 >> "${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
 else
-    echo "UNKNOWN SCENARIO '${scenario}', cannot parse"
+    echo "UNKNOWN SCENARIO number ${scenario}, cannot parse"
 fi
