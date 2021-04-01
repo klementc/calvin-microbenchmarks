@@ -32,7 +32,7 @@ echo "Launch infrastructure with scenario ${scenario}"
 firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} suffix=${suffix} logDir=${logDir} N1COST=${N1COST} scenario=${scenario} bash deployInfra.sh
 sleep 10
 echo "Launch datasource"
-docker run -v ${hostLogPath}:/logs --cpus=1.0 --cpuset-cpus=${firstCore} -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/senderService -s scenario${scenario} -r ${hostMQ} -o serv1 -t ${tsFile} 2>&1 | tee ${logDir}/${scenario}_DS_${N1COST}_${suffix}.log"
+docker run -v ${hostLogPath}:/logs --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/senderService -s scenario${scenario} -r ${hostMQ} -o serv1 -t ${tsFile} 2>&1 | tee ${logDir}/${scenario}_DS_${N1COST}_${suffix}.log"
 
 echo "Datasource sent all of its messages, parse resulting logs for scenario ${scenario}"
 if [[ ${scenario} = "1" ]]
