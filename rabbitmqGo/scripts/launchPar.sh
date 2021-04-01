@@ -53,17 +53,17 @@ do
         hostMQ="${hostMQTemplate}${rmqPort1E}"
         echo "Launch rabbitmq docker container on localhost and jaeger ${hostMQ} ${rmqPort2E} ${rmqPort1E}"
         docker run -d -p ${rmqPort2E}:15672 -p ${rmqPort1E}:5672 --hostname my-rabbit rabbitmq:3
-        sleep 2
+        sleep 10
 
         # launch experiment (set first core according to scenario)
-        if [[ ${scenario} = 1 ]]
+        if [[ ${scenario} = "1" ]]
         then
             # 2 full cores required for this scenario
             fc=$((${firstCore}+2*(${sample}-1)))
             echo "Scenario 1, sample ${sample} first core = ${fc}"
             # launch datasource (N1COST only)r
             durIter=${durIter} firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} N1COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} scenario=${scenario} bash launchOnce.sh &
-        elif [[ ${scenario} = 2 ]]
+        elif [[ ${scenario} = "2" ]]
         then
             # 3 full cores required for this scenario
             fc=$((${firstCore}+3*(${sample}-1)))
@@ -71,7 +71,7 @@ do
             echo "N1COST = N2COST"
             # launch datasource (N1COST = N2COST)
             durIter=${durIter} firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} N1COST=${s} N2COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} scenario=${scenario} bash launchOnce.sh &
-        elif [[ ${scenario} = 3 ]]
+        elif [[ ${scenario} = "3" ]]
         then
             # 3 full cores required for this scenario
             fc=$((${firstCore}+3*(${sample}-1)))
@@ -79,7 +79,7 @@ do
             echo "N1COST static = N2COST increases"
             # launch datasource (N1COST static = N2COST increases)
             durIter=${durIter} firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} N1COST=${staticIter} N2COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} scenario=${scenario} bash launchOnce.sh &
-        elif [[ ${scenario} = 4 ]]
+        elif [[ ${scenario} = "4" ]]
         then
             # 3 full cores required for this scenario
             fc=$((${firstCore}+3*(${sample}-1)))
@@ -102,7 +102,25 @@ do
     # gather results
     for sample in `seq 1 ${nbSamples}`
     do
-        tail -n+2 "${hostLogPath}/results_${scenario}_${s}_${suffix}_${sample}.csv" >> "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
+        if [[ ${scenario} = "1" ]]
+        then
+            echo "parse 1"
+            tail -n+2 "${hostLogPath}/results_${scenario}_${s}_${suffix}_${sample}.csv" >> "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
+        elif [[ ${scenario} = "2" ]]
+        then
+            echo "parse 2"
+            tail -n+2 "${hostLogPath}/results_${scenario}_${s}_${s}_${suffix}_${sample}.csv" >> "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
+        elif [[ ${scenario} = "3" ]]
+        then
+            echo "parse 3"
+            tail -n+2 "${hostLogPath}/results_${scenario}_${staticIter}_${s}_${suffix}_${sample}.csv" >> "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
+        elif [[ ${scenario} = "4" ]]
+        then
+            echo "parse 4"
+            tail -n+2 "${hostLogPath}/results_${scenario}_${s}_${staticIter}_${suffix}_${sample}.csv" >> "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
+        else
+            echo "ERROR (launchPar.sh), nothing to parse"
+        fi
         echo "done"
     done
 

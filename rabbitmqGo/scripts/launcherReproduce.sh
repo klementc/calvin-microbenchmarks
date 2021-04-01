@@ -58,9 +58,9 @@ parD="10"
 suffix="reprodcalib"
 hostLogPath="${HOME}/logs_expe/goLogs/reprod_calib_${DATE}/"
 start="1"
-end="10"
-iter="10"
-nbSamples="2"
+end="100000002"
+iter="10000000"
+nbSamples="4"
 tsFile="/go/src/app/timestamps/tsCal.csv"
 printParams
 mkdir -p ${hostLogPath}
@@ -77,9 +77,9 @@ then
   suffix="reprodscen1"
   hostLogPath="${HOME}/logs_expe/goLogs/reprod_scenario1_${DATE}/"
   start="1"
-  end="20"
-  iter="10"
-  nbSamples="2"
+  end="80000001"
+  iter="2000000"
+  nbSamples="4"
   tsFile="/go/src/app/timestamps/default5TimeStamps.csv"
   printParams
   mkdir -p ${hostLogPath}
@@ -92,8 +92,8 @@ then
   suffix="reprodscen2"
   hostLogPath="${HOME}/logs_expe/goLogs/reprod_scenario2_${DATE}/"
   start="1"
-  end="20"
-  iter="10"
+  end="80000001"
+  iter="2000000"
   nbSamples="2"
   tsFile="/go/src/app/timestamps/default5TimeStamps.csv"
   printParams
@@ -107,9 +107,9 @@ then
   suffix="reprodscen2"
   hostLogPath="${HOME}/logs_expe/goLogs/reprod_scenario2_${DATE}/"
   start="1"
-  end="20"
-  iter="10"
-  nbSamples="2"
+  end="80000001"
+  iter="2000000"
+  nbSamples="4"
   tsFile="/go/src/app/timestamps/default5TimeStamps.csv"
   printParams
   mkdir -p ${hostLogPath}
@@ -124,7 +124,7 @@ then
   start="1"
   end="20"
   iter="10"
-  nbSamples="2"
+  nbSamples="4"
   tsFile="/go/src/app/timestamps/default5TimeStamps.csv"
   printParams
   mkdir -p ${hostLogPath}
