@@ -9,7 +9,11 @@
 [ -z "${hostMQ}" ] && hostMQ="amqp://guest:guest@localhost:5672/"
 [ -z "${parD}" ] && parD="25"
 
-#[ -z "${expID}" ]  && expID=`date +%Y-%m-%d_%H-%M-%S`
+if [[ ! -e ${scenario} ]]
+then
+    echo "Indicate the scenario to launch for launchOnce.sh to run"
+    exit 1
+fi
 
 if [[ ! -e ${logDir} ]]
 then
@@ -18,14 +22,24 @@ fi
 
 
 # IMPORTANT: remove previous services
-echo "kill previous services and deploy infrastructure (deployInfra.sh 1)"
+echo "Kill previous services and deploy infrastructure (deployInfra.sh)"
 bash deployInfra.sh kill
 sleep 10
-parD=${parD} hostMQ=${hostMQ} suffix=${suffix} logDir=${logDir} N1COST=${N1COST} bash deployInfra.sh 1
+echo "Launch infrastructure with scenario ${scenario}"
+hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} suffix=${suffix} logDir=${logDir} N1COST=${N1COST} scenario=${scenario} bash deployInfra.sh
 sleep 10
-echo "launch datasource"
-#go run ${rootCode}/cmd/dataSourceService/senderService.go -r ${hostMQ} -o serv1 -t ${tsFile} 2>&1 | tee ${logDir}/1_DS_${N1COST}_${suffix}.log
-./${rootCode}/senderService -r ${hostMQ} -o serv1 -t ${tsFile} 2>&1 | tee ${logDir}/1_DS_${N1COST}_${suffix}.log 
+echo "Launch datasource"
+./${rootCode}/senderService -s "scenario${scenario}" -r ${hostMQ} -o serv1 -t ${tsFile} 2>&1 | tee ${logDir}/${scenario}_DS_${N1COST}_${suffix}.log
 
-echo "datasource sent all of its messages, parse resulting logs"
-awk -f parse.awk "${logDir}/1_S1_${N1COST}_${suffix}.log" > "${logDir}/results_${N1COST}_${suffix}.csv"
+
+echo "Datasource sent all of its messages, parse resulting logs for scenario ${scenario}"
+if [[ ${scenario} = "1"]]
+then
+    awk -f parse.awk "${logDir}/1_S1_${N1COST}_${suffix}.log" > "${logDir}/results_1_${N1COST}_${suffix}.csv"
+elif [[ ${scenario} = "2" ]]
+then
+    awk -f parse.awk "${logDir}/2_S1_${N1COST}_${suffix}.log" > "${logDir}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
+    awk -f parse.awk "${logDir}/2_S2_${N2COST}_${suffix}.log" > "${logDir}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
+else
+    echo "UNKNOWN SCENARIO '${scenario}', cannot parse"
+fi

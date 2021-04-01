@@ -54,7 +54,7 @@ func main() {
 	trigger := func() {
 		totSent++
 		fmt.Println(*serviceName, "triggered. Send message to", *outputMB, "req number", totSent, *scenarioName)
-		body := "Hello World!"
+		body := fmt.Sprint(time.Now().UnixNano())
 		err = ch.Publish(
 			"",     // exchange
 			q.Name, // routing key
