@@ -2,3 +2,6 @@
 **/*.pyc
 ./calibration/calvinLogs/*
 ./calibration/calvinFiles/*
+**/venv*
+rabbitmqService/*
+comparison/files/

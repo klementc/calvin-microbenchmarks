@@ -24,6 +24,7 @@ func main() {
 	outputMB := flag.String("o", "service1", "Output Mailbox")
 	serviceName := flag.String("n", "dataSource1", "Service name")
 	tsFile := flag.String("t", "tsCal.csv", "timestamp file path")
+	scenarioName := flag.String("s", "unknown", "Name of the executed scenario")
 
 	flag.Parse()
 	/* END CLI flags*/
@@ -52,7 +53,7 @@ func main() {
 	totSent := 0
 	trigger := func() {
 		totSent++
-		fmt.Println(*serviceName, "triggered. Send message to", *outputMB, "req number", totSent)
+		fmt.Println(*serviceName, "triggered. Send message to", *outputMB, "req number", totSent, *scenarioName)
 		body := "Hello World!"
 		err = ch.Publish(
 			"",     // exchange

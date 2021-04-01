@@ -19,6 +19,7 @@ func main() {
 	rmqHost := flag.String("r", "amqp://guest:guest@localhost:5672/", "RabbitMQ host")
 	inputMB := flag.String("i", "sink", "Input Mailbox")
 	serviceName := flag.String("n", "sinkService1", "Service name")
+	scenarioName := flag.String("s", "unknown", "Name of the executed scenario")
 
 	flag.Parse()
 	/* END CLI flags*/
@@ -56,7 +57,7 @@ func main() {
 
 	go func() {
 		for range /*d := */ msgs {
-			log.Println(*serviceName, "received a message")
+			log.Println(*serviceName, "received a message", scenarioName)
 
 		}
 	}()

@@ -49,6 +49,7 @@ func main() {
 	serviceName := flag.String("n", "computeService1", "Service name")
 	computationCost := flag.Int("c", 100000, "Computation cost (iteration amount)")
 	parallelDegree := flag.Int("p", 10, "Max amount of coroutines executing the loop in parallel)")
+	scenarioName := flag.String("s", "unknown", "Name of the executed scenario")
 
 	flag.Parse()
 	/* END CLI flags*/
@@ -118,7 +119,7 @@ func main() {
 				go counterTotRecProcessed.incr()
 
 				// format: serviceName nbIter timestamp totDurInServ computeDur parExec totReqProcessed
-				log.Println("EndReqLog", *serviceName, *computationCost, time.Now().UnixNano(), time.Now().Sub(beginTime).Nanoseconds(), endLoopTime.Sub(startLoopTime).Nanoseconds(), counterPar.getVal(), counterTotRecProcessed.getVal())
+				log.Println("EndReqLog", *serviceName, *computationCost, time.Now().UnixNano(), time.Since(beginTime).Nanoseconds(), endLoopTime.Sub(startLoopTime).Nanoseconds(), counterPar.getVal(), counterTotRecProcessed.getVal(), *scenarioName)
 				// one less once parallel process once we finished the loop
 				go counterPar.dec()
 
