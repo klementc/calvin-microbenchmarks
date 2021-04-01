@@ -57,7 +57,7 @@ func main() {
 
 	go func() {
 		for range /*d := */ msgs {
-			log.Println(*serviceName, "received a message", scenarioName)
+			log.Println(*serviceName, "received a message", *scenarioName)
 
 		}
 	}()

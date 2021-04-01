@@ -1,7 +1,7 @@
 #!/bin/bash
 
 [ -z "${N1COST}" ] && N1COST="10000000"
-[ -z "${N2COST}"] && N2COST="10000000"
+[ -z "${N2COST}" ] && N2COST="10000000"
 [ -z "${hostLogPath}" ] && hostLogPath="${HOME}/logs_expe/goLogs/"
 [ -z "${logDir}" ] && logDir="/logs/"
 [ -z "${suffix}" ] && suffix="DEFAULT"
@@ -35,9 +35,9 @@ then
     exit 1
 fi
 
-if [[ ! -e ${logDir} ]]
+if [[ ! -e ${hostLogPath} ]]
 then
-mkdir -p ${logDir}
+mkdir -p ${hostLogPath}
 fi
 
 # launch the most simple application with only 1 service
