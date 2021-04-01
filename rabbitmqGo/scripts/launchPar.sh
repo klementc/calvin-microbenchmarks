@@ -34,7 +34,7 @@ echo " ${nbSamples} executions per value"
 echo " value start: ${start} end: ${end} incr: ${iter}"
 
 #header of aggregated results file
-echo "serviceName,nbIter,timestamp,totDurInServ,computeDur,parExec,totReqProcessed,scenario" > "${hostLogPath}/aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
+echo "serviceName,nbIter,timestamp,totDurInServ,computeDur,parExec,totReqProcessed,scenario" > "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
 
 rmqPort1=5672
 rmqPort2=15672
@@ -84,8 +84,8 @@ do
     # gather results
     for sample in `seq 1 ${nbSamples}`
     do
-	tail -n+2 "${hostLogPath}/results_${s}_${scenario}_${suffix}_${sample}.csv" >> "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
-	echo "done"
+        tail -n+2 "${hostLogPath}/results_${s}_${scenario}_${suffix}_${sample}.csv" >> "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
+        echo "done"
     done
 
 done
