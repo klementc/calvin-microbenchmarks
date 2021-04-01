@@ -84,7 +84,7 @@ do
     # gather results
     for sample in `seq 1 ${nbSamples}`
     do
-        tail -n+2 "${hostLogPath}/results_${s}_${scenario}_${suffix}_${sample}.csv" >> "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
+        tail -n+2 "${hostLogPath}/results_${scenario}_${s}_${suffix}_${sample}.csv" >> "${hostLogPath}/${scenario}_aggrResults_${start}-${iter}-${end}_${nbSamples}.csv"
         echo "done"
     done
 
