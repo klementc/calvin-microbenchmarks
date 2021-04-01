@@ -37,11 +37,11 @@ if [[ ${scenario} = "1" ]]
 then
     echo "See ${hostLogPath}/results_1_${N1COST}_${suffix}.csv"
     awk -f parse.awk "${hostLogPath}/1_S1_${N1COST}_${suffix}.log" > "${hostLogPath}/results_1_${N1COST}_${suffix}.csv"
-elif [[ ${scenario} = "2" ]]
+elif [[ ${scenario} = "2" || ${scenario} = "3" || ${scenario} = "4" ]]
 then
-    echo "See ${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
-    awk -f parse.awk "${hostLogPath}/2_S1_${N1COST}_${suffix}.log" > "${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
-    awk -f parse.awk "${hostLogPath}/2_S2_${N2COST}_${suffix}.log" | tail -n+2 >> "${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
+    echo "See ${hostLogPath}/results_${scenario}_${N1COST}_${N2COST}_${suffix}.csv"
+    awk -f parse.awk "${hostLogPath}/${scenario}_S1_${N1COST}_${suffix}.log" > "${hostLogPath}/results_${scenario}_${N1COST}_${N2COST}_${suffix}.csv"
+    awk -f parse.awk "${hostLogPath}/${scenario}_S2_${N2COST}_${suffix}.log" | tail -n+2 >> "${hostLogPath}/results_${scenario}_${N1COST}_${N2COST}_${suffix}.csv"
 else
     echo "UNKNOWN SCENARIO number ${scenario}, cannot parse"
 fi

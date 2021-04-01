@@ -9,6 +9,7 @@
 [ -z "${start}" ] && start=1000000
 [ -z "${iter}" ] && iter=5000000
 [ -z "${end}" ] && end=10000000
+[ -z "${staticIter}" ] && staticIter=1000000
 [ -z "${nbSamples}" ] && nbSamples=3
 [ -z "${firstCore}" ] && firstCore=1
 [ -z "${durIter}" ] && durIter=360
@@ -61,14 +62,31 @@ do
             fc=$((${firstCore}+2*(${sample}-1)))
             echo "Scenario 1, sample ${sample} first core = ${fc}"
             # launch datasource (N1COST only)r
-            firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} N1COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} scenario=${scenario} bash launchOnce.sh &
+            durIter=${durIter} firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} N1COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} scenario=${scenario} bash launchOnce.sh &
         elif [[ ${scenario} = 2 ]]
         then
             # 3 full cores required for this scenario
             fc=$((${firstCore}+3*(${sample}-1)))
-            echo "Scenario 1, sample ${sample} first core = ${fc}"
+            echo "Scenario 2, sample ${sample} first core = ${fc}"
+            echo "N1COST = N2COST"
             # launch datasource (N1COST = N2COST)
             durIter=${durIter} firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} N1COST=${s} N2COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} scenario=${scenario} bash launchOnce.sh &
+        elif [[ ${scenario} = 3 ]]
+        then
+            # 3 full cores required for this scenario
+            fc=$((${firstCore}+3*(${sample}-1)))
+            echo "Scenario 3, sample ${sample} first core = ${fc}"
+            echo "N1COST static = N2COST increases"
+            # launch datasource (N1COST static = N2COST increases)
+            durIter=${durIter} firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} N1COST=${staticIter} N2COST=${s} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} scenario=${scenario} bash launchOnce.sh &
+        elif [[ ${scenario} = 4 ]]
+        then
+            # 3 full cores required for this scenario
+            fc=$((${firstCore}+3*(${sample}-1)))
+            echo "Scenario 4, sample ${sample} first core = ${fc}"
+            echo "N1COST increases = N2COST static"
+            # launch datasource (N1COST increases = N2COST static)
+            durIter=${durIter} firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} N1COST=${s} N2COST=${staticIter} suffix=${suffix}_${sample} logDir=${logDir} tsFile=${tsFile} scenario=${scenario} bash launchOnce.sh &
         else
             echo "Scenario ${scenario} does not exist, exit"
             exit 1

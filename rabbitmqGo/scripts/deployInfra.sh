@@ -55,17 +55,17 @@ then
 
     echo "Application ready to start. Create a dataSource on queue serv1"
 # second infrastructure with 2 services in a row
-elif [[ ${scenario} = "2" ]]
+elif [[ ${scenario} = "2" || ${scenario} = "3" || ${scenario} = "4" ]]
 then
-    echo "Configuration 2: DS -> S1 -> S2 -> Sink (launch DS to queue 'serv1' to start)"
+    echo "Configuration ${scenario}: DS -> S1 -> S2 -> Sink (launch DS to queue 'serv1' to start)"
     # First compute service (S1)
-    docker run -d -v ${hostLogPath}:/logs --cpus=1.0 --cpuset-cpus=${firstCore} -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/computeService -s scenario2 -r ${hostMQ} -i serv1 -o serv2 -n S1_${suffix} -c ${N1COST} -p ${parD} 2>&1 | tee ${logDir}/2_S1_${N1COST}_${suffix}.log"
+    docker run -d -v ${hostLogPath}:/logs --cpus=1.0 --cpuset-cpus=${firstCore} -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/computeService -s scenario${scenario} -r ${hostMQ} -i serv1 -o serv2 -n S1_${suffix} -c ${N1COST} -p ${parD} 2>&1 | tee ${logDir}/${scenario}_S1_${N1COST}_${suffix}.log"
 
     # Second compute service (S2)
-    docker run -d -v${hostLogPath}:/logs --cpus=1.0 --cpuset-cpus=$((${firstCore}+1)) -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/computeService -s scenario2 -r ${hostMQ} -i serv2 -o sink  -n S2_${suffix} -c ${N2COST} -p ${parD} 2>&1 | tee ${logDir}/2_S2_${N2COST}_${suffix}.log"
+    docker run -d -v${hostLogPath}:/logs --cpus=1.0 --cpuset-cpus=$((${firstCore}+1)) -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/computeService -s scenario${scenario} -r ${hostMQ} -i serv2 -o sink  -n S2_${suffix} -c ${N2COST} -p ${parD} 2>&1 | tee ${logDir}/${scenario}_S2_${N2COST}_${suffix}.log"
 
     # sink service
-    docker run -d -v ${hostLogPath}:/logs --cpus=1.0 --cpuset-cpus=$((${firstCore}+2)) -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/sinkService -s scenario2 -r ${hostMQ} -i sink -n sink 2>&1 | tee ${logDir}/2_Sink_${N1COST}_${N2COST}_${suffix}.log"
+    docker run -d -v ${hostLogPath}:/logs --cpus=1.0 --cpuset-cpus=$((${firstCore}+2)) -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/sinkService -s scenario${scenario} -r ${hostMQ} -i sink -n sink 2>&1 | tee ${logDir}/${scenario}_Sink_${N1COST}_${N2COST}_${suffix}.log"
     echo "Application ready to start. Create a dataSource on queue serv1"
 
 # add elif cases for future infrastructures

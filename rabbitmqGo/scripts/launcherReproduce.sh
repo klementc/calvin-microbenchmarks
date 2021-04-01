@@ -52,7 +52,7 @@ fi
 
 ###############################################################################
 figlet "First step: calib"
-echo "Before running the actual experiment, let's do a calibration run with 10 points (a bit less than an hour)"
+echo "Before running the actual experiment, let s do a calibration run with 10 points (a bit less than an hour)"
 firstCore="0"
 parD="10"
 suffix="reprodcalib"
@@ -99,10 +99,36 @@ then
   printParams
   mkdir -p ${hostLogPath}
   scenario=2 parD=${parD} suffix=${suffix} hostLogPath=${hostLogPath} logDir=/logs/ tsFile=${tsFile} start=${start} end=${end} iter=${iter} nbSamples=${nbSamples} durIter=360 bash launchPar.sh 2>&1 > ${hostLogPath}/launchPar_logs.log
+elif [[ ${scenario} = "3" ]]
+then
+  echo "Running scenario 3"
+  firstCore="0"
+  parD="10"
+  suffix="reprodscen2"
+  hostLogPath="${HOME}/logs_expe/goLogs/reprod_scenario2_${DATE}/"
+  start="1"
+  end="20"
+  iter="10"
+  nbSamples="2"
+  tsFile="/go/src/app/timestamps/default5TimeStamps.csv"
+  printParams
+  mkdir -p ${hostLogPath}
+  scenario=3 parD=${parD} suffix=${suffix} hostLogPath=${hostLogPath} logDir=/logs/ tsFile=${tsFile} start=${start} end=${end} iter=${iter} nbSamples=${nbSamples} durIter=360 bash launchPar.sh 2>&1 > ${hostLogPath}/launchPar_logs.log
+elif [[ ${scenario} = "4" ]]
+then
+  echo "Running scenario 4"
+  firstCore="0"
+  parD="10"
+  suffix="reprodscen2"
+  hostLogPath="${HOME}/logs_expe/goLogs/reprod_scenario2_${DATE}/"
+  start="1"
+  end="20"
+  iter="10"
+  nbSamples="2"
+  tsFile="/go/src/app/timestamps/default5TimeStamps.csv"
+  printParams
+  mkdir -p ${hostLogPath}
+  scenario=4 parD=${parD} suffix=${suffix} hostLogPath=${hostLogPath} logDir=/logs/ tsFile=${tsFile} start=${start} end=${end} iter=${iter} nbSamples=${nbSamples} durIter=360 bash launchPar.sh 2>&1 > ${hostLogPath}/launchPar_logs.log
 else
   echo "Unknown scenario ${scenario}, please specify an existing scenario"
 fi
-
-
-
-
