@@ -3,7 +3,6 @@
 # launch locally (1 node) services of bench infrastructures
 [ -z "${logDir}" ] && logDir="/logs/"
 [ -z "${suffix}" ] && suffix="DEFAULT"
-[ -z "${tsFile}" ] && tsFile="../../rabbitmqService/tsCal.csv"
 [ -z "${hostLogPath}" ] && hostLogPath="${HOME}/logs_expe/goLogs/"
 [ -z "${parD}" ] && parD="25"
 

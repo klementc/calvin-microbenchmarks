@@ -7,7 +7,7 @@
 [ -z "${hostLogPath}" ] && hostLogPath="${HOME}/logs_expe/goLogs/"
 [ -z "${suffix}" ] && suffix="DEFAULT"
 [ -z "${rootCode}" ] && rootCode="../"
-[ -z "${tsFile}" ] && tsFile="../../rabbitmqService/tsCal.csv"
+[ -z "${tsFile}" ] && tsFile="/go/src/app/timestamps/tsCal.csv"
 [ -z "${parD}" ] && parD="25"
 [ -z "${hostMQ}" ] && hostMQ="amqp://guest:guest@localhost:5672/"
 [ -z "${firstCore}" ] && firstCore=2
@@ -18,9 +18,9 @@ then
     exit 1
 fi
 
-if [[ -z ${logDir} ]]
+if [[ -z ${hostLogPath} ]]
 then
-    mkdir -p ${logDir}
+    mkdir -p ${hostLogPath}
 fi
 
 
@@ -32,17 +32,18 @@ echo "Launch infrastructure with scenario ${scenario}"
 firstCore=${firstCore} hostLogPath=${hostLogPath} parD=${parD} hostMQ=${hostMQ} suffix=${suffix} logDir=${logDir} N1COST=${N1COST} scenario=${scenario} bash deployInfra.sh
 sleep 10
 echo "Launch datasource"
-./${rootCode}/senderService -s "scenario${scenario}" -r ${hostMQ} -o serv1 -t ${tsFile} 2>&1 | tee ${logDir}/${scenario}_DS_${N1COST}_${suffix}.log
-
+docker run -v ${hostLogPath}:/logs --cpus=1.0 --cpuset-cpus=${firstCore} -e cpuload=100 --network host --rm -ti expe/rmqgo:latest /bin/bash -c "/go/src/app/senderService -s scenario${scenario} -r ${hostMQ} -o serv1 -t ${tsFile} 2>&1 | tee ${logDir}/${scenario}_DS_${N1COST}_${suffix}.log"
 
 echo "Datasource sent all of its messages, parse resulting logs for scenario ${scenario}"
-if [[ ${scenario} = "1"]]
+if [[ ${scenario} = "1" ]]
 then
-    awk -f parse.awk "${logDir}/1_S1_${N1COST}_${suffix}.log" > "${logDir}/results_1_${N1COST}_${suffix}.csv"
+    echo "See ${hostLogPath}/results_1_${N1COST}_${suffix}.csv"
+    awk -f parse.awk "${hostLogPath}/1_S1_${N1COST}_${suffix}.log" > "${hostLogPath}/results_1_${N1COST}_${suffix}.csv"
 elif [[ ${scenario} = "2" ]]
 then
-    awk -f parse.awk "${logDir}/2_S1_${N1COST}_${suffix}.log" > "${logDir}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
-    awk -f parse.awk "${logDir}/2_S2_${N2COST}_${suffix}.log" > "${logDir}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
+    echo "See ${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
+    awk -f parse.awk "${hostLogPath}/2_S1_${N1COST}_${suffix}.log" > "${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
+    awk -f parse.awk "${hostLogPath}/2_S2_${N2COST}_${suffix}.log" > "${hostLogPath}/results_2_${N1COST}_${N2COST}_${suffix}.csv"
 else
     echo "UNKNOWN SCENARIO '${scenario}', cannot parse"
 fi
