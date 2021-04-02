@@ -53,6 +53,7 @@ fi
 
 [ -z "${run}" ] && echo "Set \${run} to launch the experiment in addition to the setup" && exit 1
 
+cd ${repoPath}/scripts/
 ###############################################################################
 [ ! -z "${figlet}" ] && figlet "First step: calib"
 echo "Before running the actual experiment, let s do a calibration run with 10 points (a bit less than an hour)"
