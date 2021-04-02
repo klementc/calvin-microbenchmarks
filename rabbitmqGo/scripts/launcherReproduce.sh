@@ -14,7 +14,7 @@ function printParams {
 }
 
 DATE=`date +%Y-%m-%d_%H-%M-%S`
-figlet "Mserv reprod"
+[ ! -z "${figlet}" ] && figlet "Mserv reprod"
 echo "Timestamp: ${DATE}"
 
 if [[ -z "${scenario}" ]]
@@ -51,7 +51,7 @@ else
 fi
 
 ###############################################################################
-figlet "First step: calib"
+[ ! -z "${figlet}" ] && figlet "First step: calib"
 echo "Before running the actual experiment, let s do a calibration run with 10 points (a bit less than an hour)"
 firstCore="0"
 parD="10"
@@ -67,7 +67,7 @@ mkdir -p ${hostLogPath}
 scenario=1 parD=${parD} suffix=${suffix} hostLogPath=${hostLogPath} logDir=/logs/ tsFile=${tsFile} start=${start} end=${end} iter=${iter} nbSamples=${nbSamples} durIter=360 bash launchPar.sh 2>&1 > ${hostLogPath}/launchPar_logs.log
 
 ###############################################################################
-figlet "Second step: run"
+[ ! -z "${figlet}" ] && figlet "Second step: run"
 
 if [[ ${scenario} = "1" ]]
 then
