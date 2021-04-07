@@ -7,7 +7,7 @@
 [ -z "${end}" ] && end="50000000"
 [ -z "${incr}" ] && incr="2000000"
 [ -z "${tsFile}" ] && tsFile="default5TimeStamps.csv"
-[ -z "${parDeg}" ] && parDeg=10000
+[ -z "${parDeg}" ] && parDeg=10
 
 if [[ ! -e ${logDir} ]]
 then
