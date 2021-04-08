@@ -68,7 +68,7 @@ nbSamples="4"
 tsFile="/go/src/app/timestamps/tsCal.csv"
 printParams
 mkdir -p ${hostLogPath}
-scenario=1 parD=${parD} suffix=${suffix} hostLogPath=${hostLogPath} logDir=/logs/ tsFile=${tsFile} start=${start} end=${end} iter=${iter} nbSamples=${nbSamples} durIter=360 bash launchPar.sh 2>&1 > ${hostLogPath}/launchPar_logs.log
+scenario=${scenario} parD=${parD} suffix=${suffix} hostLogPath=${hostLogPath} logDir=/logs/ tsFile=${tsFile} start=${start} end=${end} iter=${iter} nbSamples=${nbSamples} durIter=360 bash launchPar.sh 2>&1 > ${hostLogPath}/launchPar_logs.log
 
 ###############################################################################
 [ ! -z "${figlet}" ] && figlet "Second step: run"
