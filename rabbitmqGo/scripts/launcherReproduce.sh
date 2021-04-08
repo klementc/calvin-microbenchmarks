@@ -126,8 +126,8 @@ then
   suffix="reprodscen4"
   hostLogPath="${HOME}/logs_expe/goLogs/reprod_scenario4_${DATE}/"
   start="1"
-  end="20"
-  iter="10"
+  end="80000001"
+  iter="2000000"
   nbSamples="4"
   tsFile="/go/src/app/timestamps/default5TimeStamps.csv"
   printParams
