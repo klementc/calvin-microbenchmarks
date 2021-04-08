@@ -15,7 +15,7 @@ then
 fi
 
 
-echo "ts,qArr,instArr,startEx,endEx,flops" > "${logDir}/${resF}.csv"
+echo "ts,qArr,instArr,startEx,endEx,flops,serv" > "${logDir}/${resF}.csv"
 
 for s in `seq ${start} ${incr} ${end}`
 do
