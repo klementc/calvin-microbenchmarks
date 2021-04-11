@@ -40,10 +40,22 @@ do
         echo "done"
     elif [[ "3" = ${scenario} ]]
     then
-        echo "TODODODO"
+        if [[ -z ${fixedCost} ]]
+        then
+            echo "Error, you need to set \${fixedCost} to execute scenario ${scenario}"
+            exit 1
+        fi
+        ./bench2  "$(pwd)/dejavu_platform.xml" ${fixedCost} ${s} ${tsFile} ${parDeg} > ${logDir}/sg_${s}.log 2>&1
+        echo "done"
     elif [[ "4" = ${scenario} ]]
     then
-        echo "TODODODO"
+        if [[ -z ${fixedCost} ]]
+        then
+            echo "Error, you need to set \${fixedCost} to execute scenario ${scenario}"
+            exit 1
+        fi
+        ./bench2  "$(pwd)/dejavu_platform.xml" ${fixedCost} ${s} ${tsFile} ${parDeg} > ${logDir}/sg_${s}.log 2>&1
+        echo "done"
     else
         echo "Unknown scenario ${scenario}"
     fi
