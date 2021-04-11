@@ -54,7 +54,7 @@ do
             echo "Error, you need to set \${fixedCost} to execute scenario ${scenario}"
             exit 1
         fi
-        ./bench2  "$(pwd)/dejavu_platform.xml" ${fixedCost} ${s} ${tsFile} ${parDeg} > ${logDir}/sg_${s}.log 2>&1
+        ./bench2  "$(pwd)/dejavu_platform.xml" ${s} ${fixedCost} ${tsFile} ${parDeg} > ${logDir}/sg_${s}.log 2>&1
         echo "done"
     else
         echo "Unknown scenario ${scenario}"
