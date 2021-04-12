@@ -70,7 +70,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%compose-post-service%
+          - node.hostname==clempc
           
   compose-post-redis:
     image: redis
@@ -89,7 +89,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%post-storage-service%
+          - node.hostname==clempc
     
   post-storage-memcached:
     image: memcached
@@ -115,7 +115,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%user-timeline-service%
+          - node.hostname==clemth.irisa.fr
 
   user-timeline-redis:
     image: redis
@@ -141,7 +141,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%url-shorten-service%
+          - node.hostname==clemth.irisa.fr
     
   url-shorten-memcached:
     image: memcached
@@ -167,7 +167,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%user-service%
+          - node.hostname==clemth.irisa.fr
           
   user-memcached:
     image: memcached
@@ -193,7 +193,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%media-service%
+          - node.hostname==clemth.irisa.fr
           
   media-memcached:
     image: memcached
@@ -219,7 +219,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%text-service%
+          - node.hostname==clemth.irisa.fr
     
   unique-id-service:
     image: yg397/social-network-microservices
@@ -231,7 +231,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%unique-id-service%
+          - node.hostname==clempc
           
   user-mention-service:
     image: yg397/social-network-microservices
@@ -243,7 +243,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%user-mention-service%
+          - node.hostname==clempc
 
   home-timeline-service:
     image: yg397/social-network-microservices
@@ -268,7 +268,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname==%nginx-thrift%
+          - node.hostname==clemth.irisa.fr
 
   media-frontend:
     image: yg397/media-frontend:xenial
