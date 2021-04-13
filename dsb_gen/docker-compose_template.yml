@@ -17,6 +17,10 @@ services:
 #      - 10000:9090
     restart: always
     entrypoint: SocialGraphService
+    deploy:
+      placement:
+        constraints:
+          - node.hostname==%social-graph-service%
 
   social-graph-mongodb:
     image: mongo
@@ -39,6 +43,10 @@ services:
     entrypoint: WriteHomeTimelineService
     depends_on:
       - write-home-timeline-rabbitmq
+    deploy:
+      placement:
+        constraints:
+          - node.hostname==%write-home-timeline-service%
 
   write-home-timeline-rabbitmq:
     image: rabbitmq
@@ -71,7 +79,7 @@ services:
       placement:
         constraints:
           - node.hostname==%compose-post-service%
-          
+
   compose-post-redis:
     image: redis
     hostname: compose-post-redis
@@ -90,7 +98,7 @@ services:
       placement:
         constraints:
           - node.hostname==%post-storage-service%
-    
+
   post-storage-memcached:
     image: memcached
     hostname: post-storage-memcached
@@ -142,7 +150,7 @@ services:
       placement:
         constraints:
           - node.hostname==%url-shorten-service%
-    
+
   url-shorten-memcached:
     image: memcached
     hostname: url-shorten-memcached
@@ -168,7 +176,7 @@ services:
       placement:
         constraints:
           - node.hostname==%user-service%
-          
+
   user-memcached:
     image: memcached
     hostname: user-memcached
@@ -194,7 +202,7 @@ services:
       placement:
         constraints:
           - node.hostname==%media-service%
-          
+
   media-memcached:
     image: memcached
     hostname: media-memcached
@@ -220,7 +228,7 @@ services:
       placement:
         constraints:
           - node.hostname==%text-service%
-    
+
   unique-id-service:
     image: yg397/social-network-microservices
     hostname: unique-id-service
@@ -232,7 +240,7 @@ services:
       placement:
         constraints:
           - node.hostname==%unique-id-service%
-          
+
   user-mention-service:
     image: yg397/social-network-microservices
     hostname: user-mention-service

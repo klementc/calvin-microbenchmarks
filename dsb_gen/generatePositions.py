@@ -1,7 +1,8 @@
 import os
 import itertools
 
-servs = ["nginx-thrift","media-service","compose-post-service","user-service","unique-id-service","text-service","user-mention-service","user-timeline-service","post-storage-service","url-shorten-service"]
+servs = ["nginx-thrift","media-service","compose-post-service","user-service","unique-id-service","text-service","user-mention-service",
+         "user-timeline-service","post-storage-service","url-shorten-service","write-home-timeline-service","social-graph-service"]
 hostnames=["clemth.irisa.fr", "clempc"]
 outDir="out/"
 templateFile="docker-compose_template.yml"
@@ -55,7 +56,7 @@ class Drawing:
         f.close()
 
     def draw_rect(self, width, height, x, y, col="orange"):
-        self.forms += "<rect width=\""+str(width)+"\" height=\""+str(height)+"\" x=\""+str(x)+"\" y=\""+str(y)+"\" fill=\""+col+"\" stroke=\"#000\" stroke-width=\"2\" "+"/>"
+        self.forms += "<rect width=\""+str(width)+"\" height=\""+str(height)+"\" x=\""+str(x)+"\" y=\""+str(y)+"\" fill=\""+col+"\" stroke=\"#000\" stroke-width=\"3\" "+"/>"
 
     def draw_line(self, x1,x2,y1,y2,col="black"):
         self.forms += "<line x1=\""+str(x1)+"\" y1=\""+str(y1)+"\" x2=\""+str(x2)+"\" y2=\""+str(y2)+"\" stroke=\""+col+"\"/>\n"
@@ -69,12 +70,12 @@ def createPic(positions, fname):
     posTxt=[3]*len(positions)
 
     for i in range(len(hostnames)):
-        graph.draw_rect(250,h,i*(250+35),0, col="rgb(174, 213, 129)")
-        graph.draw_rect(240,35,i*(250+35),1, col="rgb(255, 245, 157)")
-        graph.draw_text("HOST: "+hostnames[i], i*(250+35),25)
+        graph.draw_rect(250,h,5+i*(250+35),0, col="rgb(174, 213, 129)")
+        graph.draw_rect(240,35,5+i*(250+35),1, col="rgb(255, 245, 157)")
+        graph.draw_text("HOST: "+hostnames[i], 8+i*(250+35),25)
         for j in p[i]:
             print("serv %s on node %s"%(j,hostnames[i]))
-            graph.draw_text(j, 5+i*(250+35),posTxt[i]*25)
+            graph.draw_text(j, 10+i*(250+35),posTxt[i]*25)
             posTxt[i]+=1
 
     graph.writeToFile(fname)
