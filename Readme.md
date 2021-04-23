@@ -1,13 +1,7 @@
 # Dependency
 
-jaegertracing-python to obtain traces, python2 for calvin (yes it would be better to use up to date python but we can't..), calvin:
+Comparisons performed using rabbitMQ and go programs for the microbenchmarks, see `rabbitmqGo/`
 
-```
-virtualenv -p /usr/bin/python2 venv
-source venv/bin/activate
+Comparisons performed using Deathstarbench's social network for the realistic experiment
 
-pip install jaeger-client
-pip install er-calvin 
-pip install python_papi
-```
-
+Output summary are in the `Comparison` directory's notebooks
