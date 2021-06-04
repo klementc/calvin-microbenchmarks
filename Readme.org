@@ -1,0 +1,34 @@
+* SimGrid + microservices experiments
+
+This repository contains material used to prepare, launch and process the
+validation of our microservice simulation and code generation tools available
+at: [[https://github.com/klementc/internship_simgrid]]
+
+Below can be found a description of the content of this repository.
+
+** Comparison
+
+This folder contains the notebooks and datasets used to generate our
+visualizations. Run them in jupyter to analyze and reproduce our plots.
+
+** dsb_gen
+
+This folder contains a script we used to generate various microservice groupins
+for our DeathStarBench experiment.
+
+Modify and launch [[./dsb_gen/generatePositions.py]] to obtain some docker-compose
+files ready to be launched with node constraints.
+
+** rabbitmqGo
+
+This folder contains the code of our microbenchmark application as well as
+scripts to launch it.
+
+** sgbench
+
+This folder contains the code of our simulated microbenchmark application as
+well as scripts to launch it.
+
+** Raw logs
+
+*todo with external archive*
