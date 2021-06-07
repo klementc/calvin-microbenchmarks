@@ -1,0 +1,171 @@
+* Reproducing DeathStarBench results
+
+  This notebook describes the different steps we used to obtain our results. One
+  should be able to follow those steps to reproduce them. We describe:
+
+  - The code and software required to run the experiment
+  - The files and code we used in our use case
+  - The sequence of commands to produce our results
+
+** Software requirements
+
+   To do this experiment, you will need:
+
+  - docker, docker-compose, gawk, lua5.1
+    #+BEGIN_SRC
+    # docker from the install script
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sh get-docker.sh
+    # other dependencies used to deploy the application and launch the benchmarks
+    apt install -y lua5.1 liblua5.1 liblua5.1-dev luarocks docker-compose gawk
+    luarocks install luasocket
+    #+END_SRC 
+  - SimGrid microservice model and code generation scripts:
+  [[  https://github.com/klementc/internship_simgrid]]
+    #+BEGIN_SRC 
+    git clone git@github.com:klementc/internship_simgrid.git
+    cd internship_simgrid
+    mkdir build && cd build
+    cmake ..
+    make -j6
+    #+END_SRC
+  - Modified Jaeger front-end to obtain a .dot graph from an execution trace
+    required before code generation: [[https://github.com/klementc/jaeger-ui]]
+    #+BEGIN_SRC 
+    git clone git@github.com:klementc/jaeger-ui.git
+    cd jaeger-ui
+    nvm use
+    yarn install
+    # To start jaeger-ui (the back-end need to be run separately)
+    yarn start
+    #+END_SRC
+  - DeathStarBench dockerfiles (see our docker-compose modifications later) and
+    benchmarking scripts: [[https://github.com/delimitrou/DeathStarBench]] 
+    #+BEGIN_SRC
+    git clone https://github.com/delimitrou/DeathStarBench.git
+    # we will only use the content of the socialnetwork/ folder
+    #+END_SRC
+  - This repository, and the content of the [[./resource/]] folder
+    #+BEGIN_SRC
+    git clone git@github.com:klementc/calvin-microbenchmarks.git
+    #+END_SRC
+** Step 1: Calibration run of DeathStarBench
+
+   The Goal of the calibration step is to obtain an execution trace from
+   deathstarbench that we can use to calibrate and generate the simulation code
+   for SimGrid.
+   To do so, we
+   1. Deploy the application on a single machine
+   2. Execute some requests without overloading the application
+   3. Visualize execution traces obtained through jaeger
+   4. Export one of the execution traces as a .dot graph
+
+*** Deployment
+    Simply go to the right folder, and docker-compose up using the default file.
+    #+BEGIN_SRC
+cd DeathStarBench/socialNetwork/
+docker-compose pull # get the images from dockerhub
+docker-compose up -d
+docker ps
+    #+END_SRC
+
+    Once done, your services should be up and running, and you should be able to
+    access the application (use chrome if you want to test the application
+    manually, firefox seems to have issues at the time of writing). 
+    - Front end : [[http://localhost:8080/]] create an account, log into it and you
+      can try composing a message, adding friends etc
+    - Jaeger: [[http://localhost:16686/search]] once you did a few requests, you
+      should be able to observe the actions that happened with jaeger. Click on
+      a trace to observe it in details.
+    
+*** Execute calibration requests
+
+    To obtain an execution trace to generate the simulator, we need to execute
+    some requests. With DeathStarBench, we notice an impact of cache on
+    execution times. Indeed, when launching a very small amount of requests per
+    second, we have much longer execution times than what is possible. What we
+    want to simulate is the application in a "stable" state, meaning we want an
+    execution trace of the "average" request duration. To do so, we can execute
+    a load of around 100 requests per second, which is not enough to overload
+    the resources of most machines (adapt it if you have very limited
+    resources), while still catching the advantages of cache and in-memory
+    storage.
+
+    To launch this load, we use the load-generation scripts available for
+    DeathStarBench. We make 100 compose requests per second for 1 minute.
+
+    #+BEGIN_SRC
+# from the socialNetwork/ folder
+cd wrk2
+make # build the benchmarking tool
+# launch the calibratio
+./wrk -D fixed -T 60s -t 1 -c 1 -d 60s -L -s ./scripts/social-network/compose-post.lua http://192.168.1.74:8080/wrk2-api/post/compose -R 100
+    #+END_SRC
+
+    This benchmark should output some information on how many requests have been
+    performed during the 60 seconds, tail-latencies etc. On our test-machine, we
+    obtain 100 RPS (meaning the application is not overloaded, otherwise the
+    output load would be different to the input load), and an latency between 3
+    and 4 millisecond per request. If you notice that your machine has some
+    request loss, or abnormal latencies, relaunch your calibration with a new
+    load.
+
+    Now that we ran the calibration, we need to obtain an execution trace of
+    this calibration that we will use to generate the simulator code.
+*** Export an execution trace
+    
+    To observe the execution traces, you can go to the jaeger front-end at
+    [[http://localhost:16686]], select *nginx-web-server* and the *COMPOSE*
+    request. This should give you a screen such as in the following picture:
+
+    [[./resources/Jaeger_Screen_1.png]]
+
+    Now, the goal is to choose a trace that fit the average behaviour of the
+    application. In our case, we find the average request to take a bit more
+    than 3ms to be executed. We go through the registered traces and select one
+    of the requests fitting this execution time (knowing that you can later
+    modify the requestRatio of the simulated execution to fit more or less
+    powerful nodes. The most important here is to obtain the ratio of time spent
+    executing between each service, which should not change with different
+    configurations). Because we want to obtain a trace as a dot graph, so that
+    it can be processed with our code generator, let's launch our modified
+    jaeger front-end:
+
+    #+BEGIN_SRC
+cd jaeger-ui/
+yarn start
+    #+END_SRC
+    
+    Wait for a few seconds, and you should be able to access [[localhost:3000]]
+    Go to the trace you selected and, in the *Trace Graph* panel, download the
+    trace as a dot file as shown in the following
+
+    [[./resources/Jaeger_Screen_2.png]]
+
+    That's it, you can now remove the application, and process to the generation
+    of the simulator!
+
+    #+BEGIN_SRC
+# from the socialNetwork/ folder
+docker-compose down
+    #+END_SRC
+
+** Step 2: Code generation for SimGrid
+
+   We now have an execution trace from the application. The next step is to use
+   this trace to obtain a runnable simulator that transposed the constraints of
+   the application into SimGrid code. To do so, we
+   1. Use SimGrid code generation script to process and transform the graph from
+      step 1 into code
+   2. Add a few logging and request generation objects to the produced code
+   3. Compile the code into a runnable simulator
+
+** Step 3: Comparison SimGrid predictions and Real World observations
+
+   We are now able to predict the performance of the application using
+   SimGrid. In this step, we detail our procedure to compare the predictions
+   obtained with SimGrid against real world executions.
+   1. Launch SimGrid simulations and obtain performance prediction results
+   2. Launch DeathStarBench's socialnetwork in the 2 configurations: 1 node, and
+      2 nodes
+   3. Compare output values
