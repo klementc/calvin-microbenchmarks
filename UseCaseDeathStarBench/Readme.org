@@ -597,9 +597,12 @@ XBT_INFO("FINISHED REQUEST at ts %lf arr: %lf dur: %lf", simgrid::s4u::Engine::g
 	dataS->kill();
       #+END_SRC
 
-      Here the experiment lasts for 30 seconds, after which we kill the dataSource.
-      
+      Here the experiment lasts for 30 seconds, after which we kill the
+      dataSource. 
 
+    The code can now be compiled and run to perform performance predictions of
+    the application as we do in the next step!
+    
 ** Step 3: Comparison SimGrid predictions and Real World observations
 
    We are now able to predict the performance of the application using
@@ -609,3 +612,76 @@ XBT_INFO("FINISHED REQUEST at ts %lf arr: %lf dur: %lf", simgrid::s4u::Engine::g
    2. Launch DeathStarBench's socialnetwork in the 2 configurations: 1 node, and
       2 nodes
    3. Compare output values
+   
+*** Launching SimGrid simulation
+
+*** Launching DeathStarBench socialnetwork with 2 configurations
+    To launch the experiments, we used grid5000, on the paravance cluster (see
+    [[https://www.grid5000.fr/w/Hardware]] for hardware details). However, you can
+    do it with any 3 connected computing nodes with sufficient network capacity
+    to send and receives the request without a network bottleneck. Your nodes
+    need to be configured in a swarm. 
+
+    We proceed in 2 steps: first we set the location constraints in the
+    docker-compose files, second we launch the experiment and gather our
+    results.
+
+**** Generating docker-compose files
+     We evaluate the application on 2 configurations:
+     - configuration 1: 1 node executes the services included in the execution
+       of the compose request, the other node executes the other services so
+       that it does not affect the performance of our benchmark.
+       To do so, take the file [[./resources/awkfile_1.awk]] and set the hostname of
+       your node that will execute the services. Then, use this file on the
+       template in [[./resources/docker_compose_2.yml]] to generate the
+       docker-compose file to launch the experiment.
+
+       #+BEGIN_SRC sh
+       awk -f awkfile_1.awk docker_compose_2.yml > docker_compose_1_launchable.yml
+       #+END_SRC
+     - configuration 2: we have 2 nodes each executing 6 of the services
+       included in the execution of the compose request, and the third node
+       executes the other services.
+       To do so, same procedure as with the first configuration. Modify
+       [[./resources/awkfile_2.awk]] with the hostname of the two nodes that will
+       executes the services, and generate the docker-compose with
+       #+BEGIN_SRC sh
+       awk -f awkfile_1.awk docker_compose_2.yml > docker_compose_2_launchable.yml
+       #+END_SRC
+     
+**** Launch the experiment
+
+     To launch this experiment, we used the scrips
+     [[./resources/launchBenchsG5K.sh]]
+     In this file, you can set the minmum/maximum request throughputs, the
+     amount of samples to execute and such. This file takes care of deploying
+     the application on the swarm and launch the load test.
+
+     Before running it, you might want to limit the maximum amount of cpus
+     assigned to each node (in our results for example, we set 10 cores per node
+     to execute the application). Docker-swarm is not very great at resource
+     assignment on single nodes. One trick is to modify the cgroup with:
+
+     #+BEGIN_SRC sh
+# nodes 0 to 9 are affected to execute the containers
+echo 0-9 > /sys/fs/cgroup/cpuset/docker/cpuset.cpus
+     #+END_SRC
+
+     *do this on all nodes*
+     
+     You also need to have an operational swarm. To do so, on the master node,
+     launch "docker swarm init" and paste the join command on the other 2 nodes.
+     You should be able to see if your nodes joined the swarm with a "docker
+     swarm ls" command.
+
+     You can now launch the experiment:
+
+     #+BEGIN_SRC sh
+perc=100 bash launchG5K.sh
+     #+END_SRC
+
+     And wait until the end. The results should be found in "res/resTot.csv"
+*** Comparison
+
+    The comparison between the output csv of simgrid and real world values are
+    analyzed using an R notebook, see: [[https://github.com/klementc/calvin-microbenchmarks/blob/main/comparison/Comparison%20dsb.ipynb]]
