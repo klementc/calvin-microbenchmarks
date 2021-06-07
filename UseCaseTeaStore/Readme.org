@@ -1,0 +1,79 @@
+* Reproducing TeaStore results
+
+  This notebook describes the different steps we used to obtain our results. One
+  should be able to follow those steps to reproduce them. We describe:
+
+  - The code and software required to run the experiment
+  - The files and code we used in our use case
+  - The sequence of commands to produce our results
+
+** Software requirements
+
+   This experiment is done thanks to the TeaStore application and its
+   benchmarking tools proposed on [[https://github.com/DescartesResearch]], with a
+   few modifications we made to obtain our results.
+
+   - Clone the TeaStore application
+     #+BEGIN_SRC sh
+git clone https://github.com/DescartesResearch/TeaStore
+     #+END_SRC
+   - To load test the application, we use the HTTP-load-Generator from
+     [[https://github.com/joakimkistowski]], as recommended in TeaStore's
+     documentation
+     #+BEGIN_SRC sh
+# repository at https://github.com/joakimkistowski/HTTP-Load-Generator, below just download the jar file, you need java11
+wget https://gitlab2.informatik.uni-wuerzburg.de/descartes/httploadgenerator/raw/master/httploadgenerator.jar
+     #+END_SRC
+   - launcher in [[./resources/launchTS.sh]]
+   - load profile with only the login request at
+     [[./resources/teastore_browse_2.lua]] (the default one has more request types,
+     but for easily comparable results, we study a single request types in our
+     validation results)
+     #+BEGIN_SRC sh
+mv ./resources/teastore_browse_2.lua TeaStore/examples/httploadgenerator/
+     #+END_SRC
+
+** Launch calibration and SimGrid code generation
+
+   TODO: explain our kieker process, which required hand processing of the trace
+   because not very convenient format
+
+** Launch the experiment
+
+   As with the other experiments, we used Grid5000 to execute the
+   benchmark. Here we reserve 2 nodes: 1 will execute the application, 1 will
+   generate the load and send it to the application. We used nodes from the paravance cluster (see
+    [[https://www.grid5000.fr/w/Hardware]] for hardware details).
+
+
+    The execution is straightforward.
+
+    1. Deploy the application on your first node.
+       Before running it, you can, as we did in our results, limit the resources
+       assigned to docker for the experiment by setting the cpuset to use
+       #+BEGIN_SRC sh
+# nodes 0 to 15 are affected to execute the containers, 16 cores overall
+echo 0-15 > /sys/fs/cgroup/cpuset/docker/cpuset.cpus
+# From the root of the TeaStore repository
+docker-compose -f ./examples/docker/docker-compose_kieker.yaml up -d
+       #+END_SRC
+       
+    2. On your second node, modify "teastore_browse_2.lua" and set the
+       destination to the adress of your first node. For example if the running
+       node is paravance-15: 
+       #+BEGIN_SRC
+prefix = "http://paravance-15:8080/tools.descartes.teastore.webui/"
+       #+END_SRC
+
+    3. Launch the load generator: bash launchTS.sh (you can modify the amount of
+       threads and cores to use).
+
+       #+BEGIN_SRC
+bash launchTS.sh
+       #+END_SRC
+       
+       Once finished, the results should be located in
+       "examples/httploadgenerator/". For our visualizations, we simply fused all the
+       csv files produced as a single data file, adding fields for the amount of
+       cpu resources assigned for each sample, and the sample number (we ran 20
+       samples for each configuration).
