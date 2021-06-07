@@ -615,6 +615,25 @@ XBT_INFO("FINISHED REQUEST at ts %lf arr: %lf dur: %lf", simgrid::s4u::Engine::g
    
 *** Launching SimGrid simulation
 
+    To launch the simulations on SimGrid, you can use the script:
+    [[./resources/launchBenchs_dsb_1node.sh]] and
+    [[./resources/launchBenchs_dsb_2node.sh]].
+    Modify it if you created your own simulator, otherwise, it will run the
+    generated code with our trace that we presented earlier, which is included
+    and compiled in the [[https://github.com/klementc/internship_simgrid]]
+    repository.
+
+    You can modify the scripts to your convenience, you can modify the
+    configuration files in the internship_simgrid directory (see the
+    files in config_files/{configServices-platforms})
+
+    Then, to launcthe experiment, just run the scripts, and wait for the
+    results. It can be experienced that once the application gets congested
+    (~1600 for the 1 node configuration), you will have long execution times of
+    your simulation (~30 minutes for the last measurement) due to large queueing
+    of requests. The performance until the congestion point should be faster or
+    similar to the real execution time (~30 seconds).
+ 
 *** Launching DeathStarBench socialnetwork with 2 configurations
     To launch the experiments, we used grid5000, on the paravance cluster (see
     [[https://www.grid5000.fr/w/Hardware]] for hardware details). However, you can
