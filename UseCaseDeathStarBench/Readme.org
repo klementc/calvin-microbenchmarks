@@ -152,6 +152,12 @@ docker-compose down
 
 ** Step 2: Code generation for SimGrid
 
+   The output of this step can be found in the "generated_2inst.cpp" file. We
+   modified a bit more this file than described here to fit our experimental
+   requirements, to have 2 running instances of each service, and an additional
+   launch parameter to specify the frequency of requests without recompiling the
+   code after each modification.
+
    We now have an execution trace from the application. The next step is to use
    this trace to obtain a runnable simulator that transposed the constraints of
    the application into SimGrid code. To do so, we
@@ -159,6 +165,440 @@ docker-compose down
       step 1 into code
    2. Add a few logging and request generation objects to the produced code
    3. Compile the code into a runnable simulator
+
+   If you didn't get an execution step or skipped the previous section, you can
+   use the trace we use for our published experimental results, that can be
+   found in [[./resources/graph_compose_100p.dot]]
+
+*** Call simgrid code generation on the execution trace
+
+    Before generating the code, here is what the exported trace looks like:
+
+    [[./resources/graph_compose_100p.png]]
+
+    The script we use is in the internship_simgrid project.
+    Remember the path of your trace and launch the following
+
+    #+BEGIN_SRC
+cd internship_simgrid/script
+python graphReader.py -i
+    #+END_SRC
+
+    Here are some logs of what we obtain:
+
+    #+BEGIN_SRC
+Welcome to the simulation code generator.
+Before executing this you need to obtain jaeger traces of the requests you
+want in your simulator as a dot file. You can obtain them from this modified jaeger-ui: https://github.com/klementc/jaeger-ui
+Do you want to add a new trace to your simulator? [Y/n] Y
+Enter the request name associated to this trace : COMPOSE
+Enter the path to your file : testdot/graph_compose_100p.dot
+Processing dot graph for request COMPOSE (file: testdot/graph_compose_100p.dot)
+Sequence, no problem add: %s %s {'dur': '149', 'label': 'nginx_web_server'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclient']
+Sequence, no problem add: %s %s {'dur': '258', 'label': 'nginx_web_server'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostserver']
+Sequence, no problem add: %s %s {'dur': '544', 'label': 'compose_post_service'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicecomposeuniqueidclient', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicecomposemediaclient', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicecomposecreatorclient', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicecomposetextclient', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicewritehometimelineclient', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicewriteusertimelineclient', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicestorepostclient']
+FORK 7 nodes
+Execute in parallel?
+Node: compose_post_service
+Childs: 
+	- compose_post_service
+	- compose_post_service
+	- compose_post_service
+	- compose_post_service
+	- compose_post_service
+	- compose_post_service
+	- compose_post_service
+ [Y/n] 
+Sequence, no problem add: %s %s {'dur': '12', 'label': 'unique_id_service'} []
+Sequence, no problem add: %s %s {'dur': '6', 'label': 'media_service'} []
+Sequence, no problem add: %s %s {'dur': '5', 'label': 'user_service'} []
+Sequence, no problem add: %s %s {'dur': '296', 'label': 'text_service'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicecomposetextclienttextservicecomposetextservertextservicecomposeusermentionsclient', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicecomposetextclienttextservicecomposetextservertextservicecomposeurlsclient']
+FORK 2 nodes
+Execute in parallel?
+Node: text_service
+Childs: 
+	- text_service
+	- text_service
+ [Y/n] n
+Sequence, no problem add: %s %s {'dur': '81', 'label': 'user_mention_service'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicecomposetextclienttextservicecomposetextservertextservicecomposeusermentionsclientusermentionservicecomposeusermentionsserverusermentionservicecomposeusermentionsmemcachedgetclientLEAF', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicecomposetextclienttextservicecomposetextservertextservicecomposeusermentionsclientusermentionservicecomposeusermentionsserverusermentionservicecomposeusermentionsmongofindclientLEAF']
+FORK 2 nodes
+Execute in parallel?
+Node: user_mention_service
+Childs: 
+	- user_mention_service
+	- user_mention_service
+ [Y/n] n
+Only one node, add it and return
+Only one node, add it and return
+Sequence, no problem add: %s %s {'dur': '117', 'label': 'url_shorten_service'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicecomposetextclienttextservicecomposetextservertextservicecomposeurlsclienturlshortenservicecomposeurlsserverurlshortenserviceurlmongoinsertclientLEAF']
+Sequence, no problem add: %s %s {'dur': '438', 'label': 'url_shorten_service'} []
+Sequence, no problem add: %s %s {'dur': '22', 'label': 'home_timeline_service'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicewritehometimelineclienthometimelineservicewritehometimelineserverhometimelineservicegetfollowersclient', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicewritehometimelineclienthometimelineservicewritehometimelineserverhometimelineservicewritehometimelineredisupdateclientLEAF']
+FORK 2 nodes
+Execute in parallel?
+Node: home_timeline_service
+Childs: 
+	- home_timeline_service
+	- home_timeline_service
+ [Y/n] n
+Sequence, no problem add: %s %s {'dur': '78', 'label': 'social_graph_service'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicewritehometimelineclienthometimelineservicewritehometimelineserverhometimelineservicegetfollowersclientsocialgraphservicegetfollowersserversocialgraphservicesocialgraphredisgetclientLEAF', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicewritehometimelineclienthometimelineservicewritehometimelineserverhometimelineservicegetfollowersclientsocialgraphservicegetfollowersserversocialgraphservicesocialgraphmongofindclientLEAF']
+FORK 2 nodes
+Execute in parallel?
+Node: social_graph_service
+Childs: 
+	- social_graph_service
+	- social_graph_service
+ [Y/n] n
+Only one node, add it and return
+Only one node, add it and return
+Only one node, add it and return
+Sequence, no problem add: %s %s {'dur': '93', 'label': 'user_timeline_service'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicewriteusertimelineclientusertimelineservicewriteusertimelineserverusertimelineservicewriteusertimelinemongoinsertclientLEAF', 'nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicewriteusertimelineclientusertimelineservicewriteusertimelineserverusertimelineservicewriteusertimelineredisupdateclientLEAF']
+FORK 2 nodes
+Execute in parallel?
+Node: user_timeline_service
+Childs: 
+	- user_timeline_service
+	- user_timeline_service
+ [Y/n] n
+Only one node, add it and return
+Only one node, add it and return
+Sequence, no problem add: %s %s {'dur': '51', 'label': 'post_storage_service'} ['nginxwebserverwrkapipostcomposenginxwebserverwrkapipostcomposenginxwebservercomposepostclientcomposepostservicecomposepostservercomposepostservicestorepostclientpoststorageservicestorepostserverpoststorageservicepoststoragemongoinsertclientLEAF']
+Sequence, no problem add: %s %s {'dur': '340', 'label': 'post_storage_service'} []
+Save seq output graph as image to 'testdot/graph_compose_100p.dot_seqnot.png', dot file to 'testdot/graph_compose_100p.dot_seqnot.dot'
+Save processed ouput as image to 'testdot/graph_compose_100p.dot_seqnot_processed.png', dot file to 'testdot/graph_compose_100p.dot_seqnot_processed.dot'
+Render testdot/graph_compose_100p.dot_seqnot.dot to testdot/graph_compose_100p.dot_seqnot.png
+Render testdot/graph_compose_100p.dot_seqnot_processed.dot to testdot/graph_compose_100p.dot_seqnot_processed.png
+Sum of times in the original file: 7290
+Sum of times in the the processed graph: 7290
+Sum of times in the the final graph: 7290
+Do you want to add a new trace to your simulator? [Y/n] n
+All traces processed. Now generating code for :
+	- Trace COMPOSE
+Please give the name of the code file to produce : codeProduced.cpp
+generate output code for request COMPOSE
+
+edge:  ('nginx_web_server', 'compose_post_service')
+generate code for: nginx_web_server request: COMPOSE
+nginx_web_server (serv nginx_web_server) sends to compose_post_service
+edge:  ('compose_post_service', 'compose_post_service_')
+Nodes and their attributes:
+unique_id_service: {'serv': 'unique_id_service', 'label': 'unique_id_service dur: 12', 'id': 'unique_id_service', 'dur': 12}
+compose_post_service_: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 138', 'id': 'compose_post_service_', 'dur': 138, 'seen': True}
+
+edge:  ('compose_post_service_', 'unique_id_service')
+generate code for: compose_post_service_ request: COMPOSE_0
+compose_post_service_ (serv compose_post_service) sends to unique_id_service
+add break to compose_post_service
+add break to unique_id_service
+Nodes and their attributes:
+media_service: {'serv': 'media_service', 'label': 'media_service dur: 6', 'id': 'media_service', 'dur': 6}
+compose_post_service__: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 140', 'id': 'compose_post_service__', 'dur': 140, 'seen': True}
+
+edge:  ('compose_post_service__', 'media_service')
+generate code for: compose_post_service__ request: COMPOSE_1
+compose_post_service__ (serv compose_post_service) sends to media_service
+add break to compose_post_service
+add break to media_service
+Nodes and their attributes:
+compose_post_service___: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 135', 'id': 'compose_post_service___', 'dur': 135, 'seen': True}
+user_service: {'serv': 'user_service', 'label': 'user_service dur: 5', 'id': 'user_service', 'dur': 5}
+
+edge:  ('compose_post_service___', 'user_service')
+generate code for: compose_post_service___ request: COMPOSE_2
+compose_post_service___ (serv compose_post_service) sends to user_service
+add break to compose_post_service
+add break to user_service
+Nodes and their attributes:
+user_mention_service: {'serv': 'user_mention_service', 'label': 'user_mention_service dur: 934', 'id': 'user_mention_service', 'dur': 934}
+url_shorten_service: {'serv': 'url_shorten_service', 'label': 'url_shorten_service dur: 555', 'id': 'url_shorten_service', 'dur': 555}
+text_service_: {'serv': 'text_service', 'label': 'text_service dur: 146', 'id': 'text_service_', 'dur': 146}
+compose_post_service____: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 147', 'id': 'compose_post_service____', 'dur': 147, 'seen': True}
+text_service: {'serv': 'text_service', 'label': 'text_service dur: 646', 'id': 'text_service', 'dur': 646}
+
+edge:  ('compose_post_service____', 'text_service')
+generate code for: compose_post_service____ request: COMPOSE_3
+compose_post_service____ (serv compose_post_service) sends to text_service
+edge:  ('text_service', 'user_mention_service')
+generate code for: text_service request: COMPOSE_3
+text_service (serv text_service) sends to user_mention_service
+edge:  ('user_mention_service', 'text_service_')
+generate code for: user_mention_service request: COMPOSE_3
+user_mention_service (serv user_mention_service) sends to text_service_
+edge:  ('text_service_', 'url_shorten_service')
+generate code for: text_service_ request: COMPOSE_3
+text_service_ (serv text_service) sends to url_shorten_service
+add break to compose_post_service
+add break to text_service
+add break to user_mention_service
+add break to url_shorten_service
+Nodes and their attributes:
+home_timeline_service: {'serv': 'home_timeline_service', 'label': 'home_timeline_service dur: 243', 'id': 'home_timeline_service', 'dur': 243}
+compose_post_service_____: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 138', 'id': 'compose_post_service_____', 'dur': 138, 'seen': True}
+home_timeline_service_: {'serv': 'home_timeline_service', 'label': 'home_timeline_service dur: 7', 'id': 'home_timeline_service_', 'dur': 7}
+social_graph_service: {'serv': 'social_graph_service', 'label': 'social_graph_service dur: 707', 'id': 'social_graph_service', 'dur': 707}
+
+edge:  ('compose_post_service_____', 'home_timeline_service')
+generate code for: compose_post_service_____ request: COMPOSE_4
+compose_post_service_____ (serv compose_post_service) sends to home_timeline_service
+edge:  ('home_timeline_service', 'social_graph_service')
+generate code for: home_timeline_service request: COMPOSE_4
+home_timeline_service (serv home_timeline_service) sends to social_graph_service
+edge:  ('social_graph_service', 'home_timeline_service_')
+generate code for: social_graph_service request: COMPOSE_4
+social_graph_service (serv social_graph_service) sends to home_timeline_service_
+add break to compose_post_service
+add break to home_timeline_service
+add break to social_graph_service
+Nodes and their attributes:
+user_timeline_service: {'serv': 'user_timeline_service', 'label': 'user_timeline_service dur: 913', 'id': 'user_timeline_service', 'dur': 913}
+compose_post_service______: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 192', 'id': 'compose_post_service______', 'dur': 192, 'seen': True}
+
+edge:  ('compose_post_service______', 'user_timeline_service')
+generate code for: compose_post_service______ request: COMPOSE_5
+compose_post_service______ (serv compose_post_service) sends to user_timeline_service
+add break to compose_post_service
+add break to user_timeline_service
+Nodes and their attributes:
+post_storage_service: {'serv': 'post_storage_service', 'label': 'post_storage_service dur: 391', 'id': 'post_storage_service', 'dur': 391}
+compose_post_service_______: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 508', 'id': 'compose_post_service_______', 'dur': 508, 'seen': True}
+
+edge:  ('compose_post_service_______', 'post_storage_service')
+generate code for: compose_post_service_______ request: COMPOSE_6
+compose_post_service_______ (serv compose_post_service) sends to post_storage_service
+add break to compose_post_service
+add break to post_storage_service
+fetch pr code for request COMPOSE
+1 : ['compose_post_service']
+7 : ['compose_post_service_', 'compose_post_service__', 'compose_post_service___', 'compose_post_service____', 'compose_post_service_____', 'compose_post_service______', 'compose_post_service_______']
+Nodes and their attributes:
+unique_id_service: {'serv': 'unique_id_service', 'label': 'unique_id_service dur: 12', 'id': 'unique_id_service', 'dur': 12}
+compose_post_service_: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 138', 'id': 'compose_post_service_', 'dur': 138, 'seen': True}
+1 : ['unique_id_service']
+add break to compose_post_service
+add break to unique_id_service
+Nodes and their attributes:
+media_service: {'serv': 'media_service', 'label': 'media_service dur: 6', 'id': 'media_service', 'dur': 6}
+compose_post_service__: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 140', 'id': 'compose_post_service__', 'dur': 140, 'seen': True}
+1 : ['media_service']
+add break to compose_post_service
+add break to media_service
+Nodes and their attributes:
+compose_post_service___: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 135', 'id': 'compose_post_service___', 'dur': 135, 'seen': True}
+user_service: {'serv': 'user_service', 'label': 'user_service dur: 5', 'id': 'user_service', 'dur': 5}
+1 : ['user_service']
+add break to compose_post_service
+add break to user_service
+Nodes and their attributes:
+user_mention_service: {'serv': 'user_mention_service', 'label': 'user_mention_service dur: 934', 'id': 'user_mention_service', 'dur': 934}
+url_shorten_service: {'serv': 'url_shorten_service', 'label': 'url_shorten_service dur: 555', 'id': 'url_shorten_service', 'dur': 555}
+text_service_: {'serv': 'text_service', 'label': 'text_service dur: 146', 'id': 'text_service_', 'dur': 146}
+compose_post_service____: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 147', 'id': 'compose_post_service____', 'dur': 147, 'seen': True}
+text_service: {'serv': 'text_service', 'label': 'text_service dur: 646', 'id': 'text_service', 'dur': 646}
+1 : ['text_service']
+1 : ['user_mention_service']
+1 : ['text_service_']
+1 : ['url_shorten_service']
+add break to compose_post_service
+add break to text_service
+add break to user_mention_service
+add break to url_shorten_service
+Nodes and their attributes:
+home_timeline_service: {'serv': 'home_timeline_service', 'label': 'home_timeline_service dur: 243', 'id': 'home_timeline_service', 'dur': 243}
+compose_post_service_____: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 138', 'id': 'compose_post_service_____', 'dur': 138, 'seen': True}
+home_timeline_service_: {'serv': 'home_timeline_service', 'label': 'home_timeline_service dur: 7', 'id': 'home_timeline_service_', 'dur': 7}
+social_graph_service: {'serv': 'social_graph_service', 'label': 'social_graph_service dur: 707', 'id': 'social_graph_service', 'dur': 707}
+1 : ['home_timeline_service']
+1 : ['social_graph_service']
+1 : ['home_timeline_service_']
+add break to compose_post_service
+add break to home_timeline_service
+add break to social_graph_service
+Nodes and their attributes:
+user_timeline_service: {'serv': 'user_timeline_service', 'label': 'user_timeline_service dur: 913', 'id': 'user_timeline_service', 'dur': 913}
+compose_post_service______: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 192', 'id': 'compose_post_service______', 'dur': 192, 'seen': True}
+1 : ['user_timeline_service']
+add break to compose_post_service
+add break to user_timeline_service
+Nodes and their attributes:
+post_storage_service: {'serv': 'post_storage_service', 'label': 'post_storage_service dur: 391', 'id': 'post_storage_service', 'dur': 391}
+compose_post_service_______: {'serv': 'compose_post_service', 'label': 'compose_post_service dur: 508', 'id': 'compose_post_service_______', 'dur': 508, 'seen': True}
+1 : ['post_storage_service']
+add break to compose_post_service
+add break to post_storage_service
+Do you want to add output sizes for request COMPOSE from a size file? (Otherwise use default value: 100 bytes) [y/N] 
+Using default size 100 for all messages
+{}
+COMPOSE <-> COMPOSE
+COMPOSE <-> COMPOSE
+COMPOSE <-> COMPOSE
+COMPOSE <-> COMPOSE
+COMPOSE <-> COMPOSE
+COMPOSE <-> COMPOSE
+COMPOSE <-> COMPOSE
+COMPOSE <-> COMPOSE
+compose_post_service not in d, use default
+unique_id_service not in d, use default
+media_service not in d, use default
+user_service not in d, use default
+text_service not in d, use default
+user_mention_service not in d, use default
+url_shorten_service not in d, use default
+home_timeline_service not in d, use default
+social_graph_service not in d, use default
+user_timeline_service not in d, use default
+post_storage_service not in d, use default
+compose_post_service not in d, use default
+unique_id_service not in d, use default
+media_service not in d, use default
+user_service not in d, use default
+text_service not in d, use default
+user_mention_service not in d, use default
+url_shorten_service not in d, use default
+home_timeline_service not in d, use default
+social_graph_service not in d, use default
+user_timeline_service not in d, use default
+post_storage_service not in d, use default
+compose_post_service not in d, use default
+unique_id_service not in d, use default
+media_service not in d, use default
+user_service not in d, use default
+text_service not in d, use default
+user_mention_service not in d, use default
+url_shorten_service not in d, use default
+home_timeline_service not in d, use default
+social_graph_service not in d, use default
+user_timeline_service not in d, use default
+post_storage_service not in d, use default
+compose_post_service not in d, use default
+unique_id_service not in d, use default
+media_service not in d, use default
+user_service not in d, use default
+text_service not in d, use default
+user_mention_service not in d, use default
+url_shorten_service not in d, use default
+home_timeline_service not in d, use default
+social_graph_service not in d, use default
+user_timeline_service not in d, use default
+post_storage_service not in d, use default
+compose_post_service not in d, use default
+unique_id_service not in d, use default
+media_service not in d, use default
+user_service not in d, use default
+text_service not in d, use default
+user_mention_service not in d, use default
+url_shorten_service not in d, use default
+home_timeline_service not in d, use default
+social_graph_service not in d, use default
+user_timeline_service not in d, use default
+post_storage_service not in d, use default
+compose_post_service not in d, use default
+unique_id_service not in d, use default
+media_service not in d, use default
+user_service not in d, use default
+text_service not in d, use default
+user_mention_service not in d, use default
+url_shorten_service not in d, use default
+home_timeline_service not in d, use default
+social_graph_service not in d, use default
+user_timeline_service not in d, use default
+post_storage_service not in d, use default
+compose_post_service not in d, use default
+unique_id_service not in d, use default
+media_service not in d, use default
+user_service not in d, use default
+text_service not in d, use default
+user_mention_service not in d, use default
+url_shorten_service not in d, use default
+home_timeline_service not in d, use default
+social_graph_service not in d, use default
+user_timeline_service not in d, use default
+post_storage_service not in d, use default
+compose_post_service not in d, use default
+unique_id_service not in d, use default
+media_service not in d, use default
+user_service not in d, use default
+text_service not in d, use default
+user_mention_service not in d, use default
+url_shorten_service not in d, use default
+home_timeline_service not in d, use default
+social_graph_service not in d, use default
+user_timeline_service not in d, use default
+post_storage_service not in d, use default
+Give a name for the service config file:configGen.csv
+12 different services
+Generate constructor for service nginx_web_server
+Generate constructor for service compose_post_service
+Generate constructor for service unique_id_service
+Generate constructor for service media_service
+Generate constructor for service user_service
+Generate constructor for service text_service
+Generate constructor for service user_mention_service
+Generate constructor for service url_shorten_service
+Generate constructor for service home_timeline_service
+Generate constructor for service social_graph_service
+Generate constructor for service user_timeline_service
+Generate constructor for service post_storage_service
+=--------------------------------------------------=
+Code generated successfully to 'codeProduced.cpp'
+You now need to add your dataSources to the simulation code before running it!
+    #+END_SRC
+
+    You can observe we use some default network packet sizes in this
+    experiment. This is cause by the fact that in this setup, network isn't the
+    bottleneck, what we want to study is the CPU bottleneck of the resources we
+    study. If you wanted to study networking issues in a constrained setup, you
+    can provide a csv file with the network sizes of the request coming and
+    going of each request that would be used with SimGrid.
+
+    You can also observe that for the nodes that have multiple childs in the
+    trace graph, the user is asked whether the children should be executed in
+    parallel or sequentially. We do not do this automatically because we do not
+    have the exact information contained in our trace graph. The goal of this is
+    to allow a more fine modeling of the end-to-end latency of single requests
+    by ordering correctly sub-executions, but whatever your choices, the overall
+    amount of cpu execution will stay the same.
+
+    In the end, you obtain a cpp file along with the configuration file required
+    to launch the experiment.
+
+*** Adding logs and dataSources to the simulation code
+
+    The code generated during the previous step requires a small intervention of
+    the user to run. There are 2 things to do:
+    - Adding some additional logs if you want to: There are some default debug
+      logs that can be activated. To cound the exact number of requests executed
+      during an experiment and their latency (what we take into account in our
+      results), we add a log line in the output of post_storage_service 
+
+      #+BEGIN_SRC c++
+XBT_INFO("FINISHED REQUEST at ts %lf arr: %lf dur: %lf", simgrid::s4u::Engine::get_clock(), td->firstArrivalDate, simgrid::s4u::Engine::get_clock()-td->firstArrivalDate);
+      #+END_SRC
+
+      This code simply prints the timestamp of creation of the request, and its
+      finished execution timestamp. We use it later to create our data files
+      from execution logs.
+
+    - Adding datasources: DataSources are the objects responsible for sending
+      and receiving requests to the application. In this work we use constant
+      rate datasource that will send N requests per second. You can add them
+      after the comment "/* ADD DATASOURCES MANUALLY HERE, SET THE END TIMER AS YOU WISH, AND LAUNCH YOUR SIMULATOR*/"
+
+      #+BEGIN_SRC c++
+	/* ADD DATASOURCES MANUALLY HERE, SET THE END TIMER AS YOU WISH, AND LAUNCH YOUR SIMULATOR*/
+	DataSourceFixedInterval* dsf = new DataSourceFixedInterval("nginx_web_server",RequestType::COMPOSE, 1/freq,100);
+	simgrid::s4u::ActorPtr dataS = simgrid::s4u::Actor::create("snd", simgrid::s4u::Host::by_name("clemth.irisa.fr"), [&]{dsf->run();});
+      #+END_SRC
+
+      Don't forget to kill the dataSource once your experiment is finished,
+      example:
+      #+BEGIN_SRC c++
+	// kill policies and ETMs
+	simgrid::s4u::this_actor::sleep_for(30); /*set it according to your needs*/
+	XBT_INFO("Done. Killing policies and etms");
+	dataS->kill();
+      #+END_SRC
+
+      Here the experiment lasts for 30 seconds, after which we kill the dataSource.
+      
 
 ** Step 3: Comparison SimGrid predictions and Real World observations
 
