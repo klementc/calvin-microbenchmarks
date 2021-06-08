@@ -6,29 +6,27 @@ at: [[https://github.com/klementc/internship_simgrid]]
 
 Below can be found a description of the content of this repository.
 
-** Comparison
+* Microbenchmarks
 
-This folder contains the notebooks and datasets used to generate our
-visualizations. Run them in jupyter to analyze and reproduce our plots.
+  - [[./microbenchmarks]] : readme with information to reproduce the results
+  - [[./rabbitmqGo]] : code of the microservice application we developped for the
+    microbenchmarks as well as execution scripts used
+  - [[./comparison/Comparison_analysis_scenario1.ipynb]],
+    [[./comparison/Comparison_analysis_scenario2.ipynb]],
+    [[./comparison/Comparison_analysis_scenario3.ipynb]],
+    [[./comparison/Comparison_analysis_scenario4.ipynb]], Notebooks with
+    visualizations of our data and calibration procedures (you can reuse those
+    notebooks with your own data)
+ 
+* TeaStore
 
-** dsb_gen
+  - [[./UseCaseTeaStore/Readme.org]] : readme with information on how to reproduce
+    the results
+  - [[./UseCaseTeaStore/resources]] : resource files used for the experiment (and
+    execution trace used in the calibration)
 
-This folder contains a script we used to generate various microservice groupins
-for our DeathStarBench experiment.
 
-Modify and launch [[./dsb_gen/generatePositions.py]] to obtain some docker-compose
-files ready to be launched with node constraints.
+* Social Network
 
-** rabbitmqGo
-
-This folder contains the code of our microbenchmark application as well as
-scripts to launch it.
-
-** sgbench
-
-This folder contains the code of our simulated microbenchmark application as
-well as scripts to launch it.
-
-** Raw logs
-
-*todo with external archive*
+  - [[./UseCaseDeathStarBench/Readme.org]] : readme with information on how to reproduce
+  - [[./UseCaseDeathStarBench/resources/]] : resource files used for the experiments
