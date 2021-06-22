@@ -615,9 +615,12 @@ XBT_INFO("FINISHED REQUEST at ts %lf arr: %lf dur: %lf", simgrid::s4u::Engine::g
    
 *** Launching SimGrid simulation
 
-    To launch the simulations on SimGrid, you can use the script:
-    [[./resources/launchBenchs_dsb_1node.sh]] and
-    [[./resources/launchBenchs_dsb_2node.sh]].
+    To launch the simulations on SimGrid, copy these files in the directory of
+    your executable program (internship_simgrid/build/examples if you compiled
+    the file we used) and launch the following script for each configuration:
+    [[./resources/launchBenchs_dsb_1node.sh]],
+    [[./resources/launchBenchs_dsb_2node.sh]], and
+    [[./resources/launchBenchs_dsb_2.1node.sh]]
     Modify it if you created your own simulator, otherwise, it will run the
     generated code with our trace that we presented earlier, which is included
     and compiled in the [[https://github.com/klementc/internship_simgrid]]
@@ -646,7 +649,7 @@ XBT_INFO("FINISHED REQUEST at ts %lf arr: %lf dur: %lf", simgrid::s4u::Engine::g
     results.
 
 **** Generating docker-compose files
-     We evaluate the application on 2 configurations:
+     We evaluate the application on 3 configurations:
      - configuration 1: 1 node executes the services included in the execution
        of the compose request, the other node executes the other services so
        that it does not affect the performance of our benchmark.
@@ -658,15 +661,23 @@ XBT_INFO("FINISHED REQUEST at ts %lf arr: %lf dur: %lf", simgrid::s4u::Engine::g
        #+BEGIN_SRC sh
        awk -f awkfile_1.awk docker_compose_2.yml > docker_compose_1_launchable.yml
        #+END_SRC
-     - configuration 2: we have 2 nodes each executing 6 of the services
+     - configuration 2.a: we have 2 nodes each executing 6 of the services
        included in the execution of the compose request, and the third node
        executes the other services.
        To do so, same procedure as with the first configuration. Modify
        [[./resources/awkfile_2.awk]] with the hostname of the two nodes that will
        executes the services, and generate the docker-compose with
        #+BEGIN_SRC sh
-       awk -f awkfile_1.awk docker_compose_2.yml > docker_compose_2_launchable.yml
+       awk -f awkfile_2.awk docker_compose_2.yml > docker_compose_2_launchable.yml
        #+END_SRC
+     - configuration 2.b: Same as 2.a but with different groups of services.
+       To do so, same procedure as with the first configuration. Modify
+       [[./resources/awkfile_2.awk]] with the hostname of the two nodes that will
+       executes the services, and generate the docker-compose with
+       #+BEGIN_SRC sh
+       awk -f awkfile_2.awk docker_compose_2.1.yml > docker_compose_2.1_launchable.yml
+       #+END_SRC
+
      
 **** Launch the experiment
 
@@ -692,6 +703,9 @@ echo 0-9 > /sys/fs/cgroup/cpuset/docker/cpuset.cpus
      launch "docker swarm init" and paste the join command on the other 2 nodes.
      You should be able to see if your nodes joined the swarm with a "docker
      swarm ls" command.
+
+     Modify launchG5K.sh to set the scenario number you want (nbn to 1, 2, or
+     2.1) and the request lower and upper bounds to be tested.
 
      You can now launch the experiment:
 
